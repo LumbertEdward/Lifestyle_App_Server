@@ -1,0 +1,1 @@
+Lifestyle Application server
