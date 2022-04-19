@@ -1,11 +1,13 @@
 {
   "name": "lifestyle-app-server",
   "version": "0.0.0",
+  "description": "Implemented in Nodejs, Express, MongoDB, Mongoose",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "node util/swagger.js && node ./bin/www",
     "swagger": "node swagger.js",
-    "start:dev": "node utils/swagger.js && nodemon ./bin/www"
+    "start:dev": "node utils/swagger.js && nodemon ./bin/www",
+    "start-server": "node ./bin/www"
   },
   "dependencies": {
     "@prisma/client": "^3.12.0",
@@ -28,6 +30,7 @@
     "nodemailer-sendgrid-transport": "^0.2.0",
     "otp-generator": "^4.0.0",
     "prisma": "^3.12.0",
+    "socket.io": "^4.4.1",
     "swagger-autogen": "^2.21.1",
     "swagger-ui-express": "^4.3.0",
     "uuid": "^8.3.2",

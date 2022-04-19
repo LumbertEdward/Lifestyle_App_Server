@@ -10,7 +10,6 @@ var swaggerFile = require('./documentation/swagger_output.json');
 var cors = require('cors');
 var auth = require('./middleware/auth');
 
-var usersRouter = require('./routes/users');
 var Router = require('./routes/router');
 
 require('dotenv').config();
@@ -52,8 +51,7 @@ app.use((req, res, next) => {
 app.use(auth)
 
 app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
-app.use('/lifestyleapp', Router);
-app.use('/', usersRouter);
+app.use('/lifestyle-app', Router);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
