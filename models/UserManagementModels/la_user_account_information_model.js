@@ -149,9 +149,36 @@ const la_user_account_information_schema = new Schema({
         trim: true
     },
     la_user_address_information: {
-        type: Schema.Types.ObjectId,
-        ref: 'la_user_address_information',
-        required: false
+        la_user_country: {
+            type: String,
+            required: false,
+            trim: true
+        },
+        la_user_city: {
+            type: String,
+            required: false,
+            trim: true
+        },
+        la_user_state: {
+            type: String,
+            required: false,
+            trim: true
+        },
+        la_user_postal_code: {
+            type: String,
+            required: false,
+            trim: true
+        },
+        la_user_address_one: {
+            type: String,
+            required: false,
+            trim: true
+        },
+        la_user_address_two: {
+            type: String,
+            required: false,
+            trim: true
+        },
     },
     la_user_account_information_meal_plans: [
         {

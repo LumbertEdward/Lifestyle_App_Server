@@ -1,19 +1,19 @@
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const otpGenerator = require('otp-generator');
-const La_user_account_information_model = require('../models/UserManagementModels/la_user_account_information_model');
-const La_user_address_information = require('../models/UserManagementModels/la_user_address_information_model');
-const La_token_information = require('../models/UserManagementModels/la_token_information_model');
+const La_user_account_information_model = require('../../models/UserManagementModels/la_user_account_information_model');
+const La_token_information = require('../../models/TokenInformation/la_token_information_model');
 
 const credentials = {
     apiKey: "",
     username: ""
 }
+
 const africastalking = require('africastalking')(credentials)
 const sms = africastalking.SMS;
 
-exports.CreateUserController = async function(req, res, next){
+exports.La_create_user_account_controller = async function(req, res, next){
     const { la_user_email_address, la_user_phone_number, la_user_password, la_sign_up_with } = req.body;
     try {
         if(la_sign_up_with === "la_phone_number"){
@@ -103,6 +103,7 @@ exports.CreateUserController = async function(req, res, next){
                 la_user_email_address: la_user_email_address,
                 la_user_phone_number: la_user_phone_number,
                 la_user_account_verification_code: one_time_password,
+                la_user_account_information_type: false,
                 la_user_account_password: bcrypt.hash(la_user_password, 12),
                 la_user_account_verification_code_expiry_date: Date.now() + 3600000,
                 la_user_account_information_created_at: Date.now(),
@@ -132,7 +133,7 @@ exports.CreateUserController = async function(req, res, next){
     }
 }
 
-exports.AccountVerification = async function (req, res, next) {
+exports.La_user_account_verification_code_controller = async function (req, res, next) {
     const { la_user_account_verification_code } = req.params;
     try {
         const errors = [];
@@ -203,7 +204,7 @@ exports.AccountVerification = async function (req, res, next) {
     }
 }
 
-exports.AccountResendVerificationCode = async function (req, res, next) {
+exports.La_user_account_resend_verification_code_controller = async function (req, res, next) {
     const { la_user_email_address, la_user_phone_number, la_resend_via } = req.body;
     try{
         if(la_resend_via === "la_phone_number"){
@@ -308,7 +309,7 @@ exports.AccountResendVerificationCode = async function (req, res, next) {
     }
 }
 
-exports.AccountPhoneResetCode = async function (req, res, next) {
+exports.La_user_phone_reset_code_controller = async function (req, res, next) {
     const { la_user_phone_number } = req.body;
     try {
         const errors = []
@@ -367,7 +368,7 @@ exports.AccountPhoneResetCode = async function (req, res, next) {
     }
 }
 
-exports.AccountEmailResetCode = async function (req, res, next) {
+exports.La_user_email_reset_code_controller = async function (req, res, next) {
     const { la_user_email_address } = req.body;
     try {
         const errors = []
@@ -425,7 +426,7 @@ exports.AccountEmailResetCode = async function (req, res, next) {
     }
 }
 
-exports.AccountResendResetCode = async function (req, res, next) {
+exports.La_user_resend_reset_code_controller = async function (req, res, next) {
     const { la_user_email_address, la_user_phone_number, la_resend_with } = req.body;
 
     try{
@@ -533,7 +534,7 @@ exports.AccountResendResetCode = async function (req, res, next) {
     }
 }
 
-exports.AccountResetCodeVerification = async function (req, res, next) {
+exports.La_user_reset_code_verification_controller = async function (req, res, next) {
     const { la_user_account_reset_code } = req.params;
     try {
         const errors = []
@@ -609,7 +610,7 @@ exports.AccountResetCodeVerification = async function (req, res, next) {
     }
 }
 
-exports.AccountSetNewPassword = async function (req, res, next) {
+exports.La_user_set_new_password_controller = async function (req, res, next) {
     const { la_new_password } = req.body;
     try{
         if(!req.isAuth){
@@ -650,7 +651,7 @@ exports.AccountSetNewPassword = async function (req, res, next) {
     }
 }
 
-exports.AccountPhonePin = async function (req, res, next) {
+exports.La_user_phone_set_pin_controller = async function (req, res, next) {
     const { la_user_pin } = req.body;
     try{
         if(!req.isAuth){
@@ -692,65 +693,7 @@ exports.AccountPhonePin = async function (req, res, next) {
     }
 }
 
-exports.AccountUpdateProfileInformation = async function (req, res, next) {
-    const { 
-        la_user_first_name,
-        la_user_middle_name,
-        la_user_last_name,
-        la_user_gender,
-        la_user_date_of_birth,
-        la_user_username,
-        la_user_identification_type,
-        la_user_identification_number,
-        la_user_identification_country_of_issue,
-        la_user_diet_type,
-        la_user_health_condition,
-        la_user_disabled_or_having_health_condition,
-        la_user_disability_or_health_condition_details,
-        la_user_number_of_eat_times,
-        la_user_meal_taken_details
-    } = req.body;
-
-    if(!req.isAuth){
-        const error = new Error("Unauthorised access, Login to continue");
-        error.code = 401;
-        throw error;
-    }
-
-    const userInformation = await La_user_account_information_model.findById(req.userId)
-
-    if(!userInformation){
-        const error = new Error("User not found")
-        error.code = 404;
-        throw error;
-    }
-
-    userInformation.la_user_first_name = la_user_first_name;
-    userInformation.la_user_middle_name = la_user_middle_name;
-    userInformation.la_user_last_name = la_user_last_name;
-    userInformation.la_user_username = la_user_username;
-    userInformation.la_user_gender = la_user_gender;
-    userInformation.la_user_date_of_birth = la_user_date_of_birth;
-    userInformation.la_user_identification_type = la_user_identification_type;
-    userInformation.la_user_identification_number = la_user_identification_number;
-    userInformation.la_user_identification_country_of_issue = la_user_identification_country_of_issue;
-    userInformation.la_user_account_information_updated_at = Date.now();
-
-    const updatedUser = await userInformation.save()
-
-    res.status(200).json({
-        status: 200,
-        message: "Profile information updated successfully",
-        _id: updatedUser._id.toString(),
-        la_user_profile_information: updatedUser,
-        la_user_account_information_created_at: updatedUser.la_user_account_information_created_at,
-        la_user_account_information_updated_at: updatedUser.la_user_account_information_updated_at,
-        la_user_account_information_is_verified: updatedUser.la_user_account_information_is_verified,
-    })
-
-}
-
-exports.LoginController = async function(req, res, next){
+exports.La_user_login_information_controller = async function(req, res, next){
     const { la_user_email_address, la_user_account_pin, la_user_password, la_user_login_with } = req.body;
     try {
         if(la_user_login_with === "la_phone_number"){
@@ -871,7 +814,92 @@ exports.LoginController = async function(req, res, next){
     }
 }
 
-exports.AccountUpdateUserHealthInformation = async function (req, res, next) {
+exports.La_user_update_profile_information_controller = async function (req, res, next) {
+    const { 
+        la_user_account_information_type,
+        la_user_first_name,
+        la_user_middle_name,
+        la_user_last_name,
+        la_user_gender,
+        la_user_date_of_birth,
+        la_user_username,
+        la_user_identification_type,
+        la_user_identification_number,
+        la_user_identification_country_of_issue,
+    } = req.body;
+
+    try{
+        if(!req.isAuth){
+            const error = new Error("Unauthorised access, Login to continue");
+            error.code = 401;
+            throw error;
+        }
+    
+        const userInformation = await La_user_account_information_model.findById(req.userId)
+    
+        if(!userInformation){
+            const error = new Error("User not found")
+            error.code = 404;
+            throw error;
+        }
+    
+        if(la_user_account_information_type !== undefined){
+            userInformation.la_user_account_information_type = la_user_account_information_type;
+        }
+        if(la_user_first_name !== undefined){
+            userInformation.la_user_first_name = la_user_first_name;
+        }
+        if(la_user_middle_name !== undefined){
+            userInformation.la_user_middle_name = la_user_middle_name;
+        }
+        if(la_user_last_name !== undefined){
+            userInformation.la_user_last_name = la_user_last_name;
+        }
+        if(la_user_username !== undefined){
+            userInformation.la_user_username = la_user_username;
+        }
+        if(la_user_username !== undefined){
+            userInformation.la_user_username = la_user_username;
+        }
+        if(la_user_gender !== undefined){
+            userInformation.la_user_gender = la_user_gender;
+        }
+        if(la_user_date_of_birth !== undefined){
+            userInformation.la_user_date_of_birth = la_user_date_of_birth;
+        }
+        if(la_user_identification_type !== undefined){
+            userInformation.la_user_identification_type = la_user_identification_type;
+        }
+        if(la_user_identification_number !== undefined){
+            userInformation.la_user_identification_number = la_user_identification_number;
+        }
+        if(la_user_identification_country_of_issue !== undefined){
+            userInformation.la_user_identification_country_of_issue = la_user_identification_country_of_issue;
+        }
+        
+        userInformation.la_user_account_information_updated_at = Date.now();
+    
+        const updatedUser = await userInformation.save()
+    
+        res.status(200).json({
+            status: 200,
+            message: "Profile information updated successfully",
+            _id: updatedUser._id.toString(),
+            la_user_profile_information: updatedUser,
+            la_user_account_information_created_at: updatedUser.la_user_account_information_created_at,
+            la_user_account_information_updated_at: updatedUser.la_user_account_information_updated_at,
+            la_user_account_information_is_verified: updatedUser.la_user_account_information_is_verified,
+        })
+
+    }
+    catch(error){
+        res.json({ message: error.message, status: error.code })
+        next()
+    }
+
+}
+
+exports.La_user_update_health_information_controller = async function (req, res, next) {
     const { 
         la_user_diet_type,
         la_user_health_condition,
@@ -881,39 +909,194 @@ exports.AccountUpdateUserHealthInformation = async function (req, res, next) {
         la_user_meal_taken_details
     } = req.body;
 
-    if(!req.isAuth){
-        const error = new Error("Unauthorised access, Login to continue");
-        error.code = 401;
-        throw error;
+    try{
+        if(!req.isAuth){
+            const error = new Error("Unauthorised access, Login to continue");
+            error.code = 401;
+            throw error;
+        }
+    
+        const userInformation = await La_user_account_information_model.findById(req.userId)
+    
+        if(!userInformation){
+            const error = new Error("User not found")
+            error.code = 404;
+            throw error;
+        }
+    
+        if(la_user_diet_type !== undefined){
+            userInformation.la_user_diet_type = la_user_diet_type;
+        }
+        if(la_user_health_condition !== undefined){
+            userInformation.la_user_current_health_condition = la_user_health_condition;
+        }
+        if(la_user_disabled_or_having_health_condition !== undefined){
+            userInformation.la_user_is_disabled_or_having_a_health_condition = la_user_disabled_or_having_health_condition;
+        }
+        if(la_user_disability_or_health_condition_details !== undefined){
+            userInformation.la_user_disability_or_health_condition_details = la_user_disability_or_health_condition_details;
+        }
+        if(la_user_number_of_eat_times !== undefined){
+            userInformation.la_user_number_of_eat_times = la_user_number_of_eat_times;
+        }
+        if(la_user_meal_taken_details !== undefined){
+            userInformation.la_user_meal_taken_details = la_user_meal_taken_details;
+        }
+        
+        userInformation.la_user_account_information_updated_at = Date.now();
+    
+        const updatedUser = await userInformation.save()
+    
+        res.status(200).json({
+            status: 200,
+            message: "Health information updated successfully",
+            _id: updatedUser._id.toString(),
+            la_user_profile_information: updatedUser,
+            la_user_account_information_created_at: updatedUser.la_user_account_information_created_at,
+            la_user_account_information_updated_at: updatedUser.la_user_account_information_updated_at,
+            la_user_account_information_is_verified: updatedUser.la_user_account_information_is_verified,
+        })
     }
-
-    const userInformation = await La_user_account_information_model.findById(req.userId)
-
-    if(!userInformation){
-        const error = new Error("User not found")
-        error.code = 404;
-        throw error;
+    catch(error){
+        res.json({ message: error.message, status: error.code })
+        next()
     }
-
-    userInformation.la_user_diet_type = la_user_diet_type;
-    userInformation.la_user_current_health_condition = la_user_health_condition;
-    userInformation.la_user_is_disabled_or_having_a_health_condition = la_user_disabled_or_having_health_condition;
-    userInformation.la_user_disability_or_health_condition_details = la_user_disability_or_health_condition_details;
-    userInformation.la_user_number_of_eat_times = la_user_number_of_eat_times;
-    userInformation.la_user_meal_taken_details = la_user_meal_taken_details;
-    userInformation.la_user_account_information_updated_at = Date.now();
-
-    const updatedUser = await userInformation.save()
-
-    res.status(200).json({
-        status: 200,
-        message: "Health information updated successfully",
-        _id: updatedUser._id.toString(),
-        la_user_profile_information: updatedUser,
-        la_user_account_information_created_at: updatedUser.la_user_account_information_created_at,
-        la_user_account_information_updated_at: updatedUser.la_user_account_information_updated_at,
-        la_user_account_information_is_verified: updatedUser.la_user_account_information_is_verified,
-    })
 
 }
 
+exports.La_user_update_address_information_controller = async function (req, res, next) {
+    const {
+        la_user_country,
+        la_user_city,
+        la_user_state,
+        la_user_postal_code,
+        la_user_address_line_1,
+        la_user_address_line_2,
+
+    } = req.body;
+
+    try{
+        if(!req.isAuth){
+            const error = new Error("Unauthorised access, Login to continue");
+            error.code = 401;
+            throw error;
+        }
+    
+        const userInformation = await La_user_account_information_model.findById(req.userId)
+    
+        if(!userInformation){
+            const error = new Error("User not found")
+            error.code = 404;
+            throw error;
+        }
+
+        userInformation.la_user_address_information = {
+            la_user_country: la_user_country,
+            la_user_city: la_user_city,
+            la_user_state: la_user_state,
+            la_user_postal_code: la_user_postal_code,
+            la_user_address_line_one: la_user_address_line_1,
+            la_user_address_line_two: la_user_address_line_2,
+        }
+        
+        userInformation.la_user_account_information_updated_at = Date.now();
+    
+        const updatedUser = await userInformation.save();
+    
+        res.status(200).json({
+            status: 200,
+            message: "Address information updated successfully",
+            _id: updatedUser._id.toString(),
+            la_user_profile_information: updatedUser,
+            la_user_account_information_created_at: updatedUser.la_user_account_information_created_at,
+            la_user_account_information_updated_at: updatedUser.la_user_account_information_updated_at,
+            la_user_account_information_is_verified: updatedUser.la_user_account_information_is_verified,
+        })
+    }
+    catch(error){
+        res.json({ message: error.message, status: error.code })
+        next()
+    }
+}
+
+exports.La_user_log_out_controller = async function (req, res, next) {
+    const { la_refresh_token } = req.body;
+    const { la_user_id } = req.params;
+
+    try{
+        if(validator.isEmpty(la_refresh_token)){
+            const error = new Error("Refresh token is required");
+            error.code = 400;
+            throw error;
+        }
+
+        const refreshToken = await La_token_information.findOne({ 
+            la_refresh_token: la_refresh_token,
+            la_user_id: la_user_id
+        });
+
+        if(!refreshToken){
+            const error = new Error("Refresh token not found");
+            error.code = 404;
+            throw error;
+        }
+
+        await La_token_information.findOneAndDelete({
+            la_refresh_token: la_refresh_token
+        })
+
+        res.status(200).json({
+            status: 200,
+            message: "Logged out successfully",
+        })
+    }
+    catch(error){
+        res.json({ message: error.message, status: error.code })
+        next()
+    }
+}
+
+exports.La_mobile_refresh_token_information_controller = async function (req, res, next) {
+    const { la_refresh_token } = req.params;
+
+    try {
+        if(validator.isEmpty(la_refresh_token)){
+            const error = new Error("Refresh token is required");
+            error.code = 400;
+            throw error;
+        }
+
+        const refreshToken = await La_token_information.findOne({
+            la_refresh_token: la_refresh_token
+        })
+
+        if(!refreshToken){
+            const error = new Error("Refresh token not found");
+            error.code = 404;
+            throw error;
+        }
+
+        const payload = jwt.verify(refreshToken.la_refresh_token, 
+            "YW1qdXN0c29tZXdoZXJldHlpbmd0b21ha2VtaXN0YWtlc2xpZmVpc2Z1bGxvZnN0cnVnZ2xlc2hlcmU"
+        );
+
+        const accessToken = jwt.sign({
+            userId: payload.userId,
+            la_user_email_address: payload.la_user_email_address
+        },
+        "thisisalifestyleappthathelpsclientsmanagehowtheyliveappropriately",
+        {expiresIn: "30m"})
+
+        res.status(200).json({
+            status: 200,
+            message: "Refresh token generated successfully",
+            token: accessToken,
+            refreshToken: refreshToken.la_refresh_token,
+            userId: refreshToken.la_user_id,
+        })
+        
+    } catch (error) {
+        res.json({ message: error.message, status: error.code })
+        next()
+    }
+}

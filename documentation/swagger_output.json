@@ -11,10 +11,32 @@
     "http"
   ],
   "paths": {
-    "/user": {
-      "get": {
+    "/la_create_user_information": {
+      "post": {
         "description": "",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_user_email_address": {
+                  "example": "any"
+                },
+                "la_user_phone_number": {
+                  "example": "any"
+                },
+                "la_user_password": {
+                  "example": "any"
+                },
+                "la_sign_up_with": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -22,10 +44,401 @@
         }
       }
     },
-    "/login": {
-      "get": {
+    "/la_user_account_verification_information/{la_user_account_verification_code}": {
+      "post": {
         "description": "",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "la_user_account_verification_code",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_resend_user_verification_code": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_user_email_address": {
+                  "example": "any"
+                },
+                "la_user_phone_number": {
+                  "example": "any"
+                },
+                "la_resend_via": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_user_phone_reset_code": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_user_phone_number": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_user_email_reset_code": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_user_email_address": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_resend_reset_code": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_user_email_address": {
+                  "example": "any"
+                },
+                "la_user_phone_number": {
+                  "example": "any"
+                },
+                "la_resend_with": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_user_reset_code_verification/{la_user_account_reset_code}": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_user_account_reset_code",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_user_set_new_password": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_new_password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_phone_user_set_pin": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_user_pin": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_user_update_profile_information": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_user_account_information_type": {
+                  "example": "any"
+                },
+                "la_user_first_name": {
+                  "example": "any"
+                },
+                "la_user_middle_name": {
+                  "example": "any"
+                },
+                "la_user_last_name": {
+                  "example": "any"
+                },
+                "la_user_gender": {
+                  "example": "any"
+                },
+                "la_user_date_of_birth": {
+                  "example": "any"
+                },
+                "la_user_username": {
+                  "example": "any"
+                },
+                "la_user_identification_type": {
+                  "example": "any"
+                },
+                "la_user_identification_number": {
+                  "example": "any"
+                },
+                "la_user_identification_country_of_issue": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_user_update_address_information": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_user_country": {
+                  "example": "any"
+                },
+                "la_user_city": {
+                  "example": "any"
+                },
+                "la_user_state": {
+                  "example": "any"
+                },
+                "la_user_postal_code": {
+                  "example": "any"
+                },
+                "la_user_address_line_1": {
+                  "example": "any"
+                },
+                "la_user_address_line_2": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_user_update_health_information": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_user_diet_type": {
+                  "example": "any"
+                },
+                "la_user_health_condition": {
+                  "example": "any"
+                },
+                "la_user_disabled_or_having_health_condition": {
+                  "example": "any"
+                },
+                "la_user_disability_or_health_condition_details": {
+                  "example": "any"
+                },
+                "la_user_number_of_eat_times": {
+                  "example": "any"
+                },
+                "la_user_meal_taken_details": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_user_login_information": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_user_email_address": {
+                  "example": "any"
+                },
+                "la_user_account_pin": {
+                  "example": "any"
+                },
+                "la_user_password": {
+                  "example": "any"
+                },
+                "la_user_login_with": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_user_log_out/{la_user_id}": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_user_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_refresh_token": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_mobile_refresh_token_information/{la_refresh_token}": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_refresh_token",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
