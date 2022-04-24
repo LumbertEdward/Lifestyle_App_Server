@@ -4,7 +4,7 @@
   "description": "Implemented in Nodejs, Express, MongoDB, Mongoose",
   "private": true,
   "scripts": {
-    "start": "node util/swagger.js && node ./bin/www",
+    "start": "node utils/swagger.js && node ./bin/www",
     "swagger": "node swagger.js",
     "start:dev": "node utils/swagger.js && nodemon ./bin/www",
     "start-server": "node ./bin/www"
