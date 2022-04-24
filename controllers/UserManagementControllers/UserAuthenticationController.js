@@ -32,8 +32,7 @@ exports.La_create_user_account_controller = async function(req, res, next){
             const currentUser = await La_user_account_information_model.findOne({la_user_phone_number: la_user_phone_number});
             if (currentUser) {
                 const error = new Error("Phone number already in use")
-                error.code = 400;
-                error.data = errors;
+                error.code = 404;
                 throw error;
             }
 
@@ -76,6 +75,10 @@ exports.La_create_user_account_controller = async function(req, res, next){
                 errors.push({message: "Enter a valid email address"})
             }
 
+            if(validator.isEmpty(la_user_password) || validator.isLength(la_user_password, {min: 8})){
+                errors.push({message: "Enter a valid password"})
+            }
+
             if(errors.length > 0){
                 const error = new Error('Invalid input');
                 error.data = errors;
@@ -88,7 +91,6 @@ exports.La_create_user_account_controller = async function(req, res, next){
             if(currentUser){
                 const error = new Error('Email address already in use');
                 error.code = 400;
-                error.data = errors;
                 throw error;
             }
 
@@ -99,12 +101,14 @@ exports.La_create_user_account_controller = async function(req, res, next){
                 specialChars: false
             })
 
+            const hashedPassword = await bcrypt.hash(la_user_password, 12);
+
             const userInformation = new La_user_account_information_model({
                 la_user_email_address: la_user_email_address,
                 la_user_phone_number: la_user_phone_number,
                 la_user_account_verification_code: one_time_password,
                 la_user_account_information_type: false,
-                la_user_account_password: bcrypt.hash(la_user_password, 12),
+                la_user_account_password: hashedPassword,
                 la_user_account_verification_code_expiry_date: Date.now() + 3600000,
                 la_user_account_information_created_at: Date.now(),
                 la_user_account_information_updated_at: Date.now()
@@ -158,7 +162,6 @@ exports.La_user_account_verification_code_controller = async function (req, res,
         if(!verificationCode){
             const error = new Error("Invalid one time password, check code and try again");
             error.code = 400;
-            error.data = errors;
             throw error;
         }
 
@@ -226,8 +229,7 @@ exports.La_user_account_resend_verification_code_controller = async function (re
 
             if(!userInformation){
                 const error = new Error("Phone number not found");
-                error.code = 400;
-                error.data = errors;
+                error.code = 404;
                 throw error;
             }
 
@@ -273,8 +275,7 @@ exports.La_user_account_resend_verification_code_controller = async function (re
 
             if(!userInformation){
                 const error = new Error("Email address not found");
-                error.code = 400;
-                error.data = errors;
+                error.code = 404;
                 throw error;
             }
 
@@ -330,8 +331,7 @@ exports.La_user_phone_reset_code_controller = async function (req, res, next) {
 
         if(!currentAccount){
             const error = new Error("Phone number not found");
-            error.data = errors;
-            error.code = 400;
+            error.code = 404;
             throw error;
         }
 
@@ -389,8 +389,7 @@ exports.La_user_email_reset_code_controller = async function (req, res, next) {
 
         if(!currentAccount){
             const error = new Error("Email address not found");
-            error.data = errors;
-            error.code = 400;
+            error.code = 404;
             throw error;
         }
 
@@ -449,8 +448,7 @@ exports.La_user_resend_reset_code_controller = async function (req, res, next) {
 
             if(!userInformation){
                 const error = new Error("Phone number not found");
-                error.data = errors;
-                error.code = 400;
+                error.code = 404;
                 throw error;
             }
 
@@ -497,8 +495,7 @@ exports.La_user_resend_reset_code_controller = async function (req, res, next) {
 
             if(!userInformation){
                 const error = new Error("Email address not found");
-                error.data = errors;
-                error.code = 400;
+                error.code = 404;
                 throw error;
             }
 
@@ -558,8 +555,7 @@ exports.La_user_reset_code_verification_controller = async function (req, res, n
 
         if(!resetCode){
             const error = new Error("Invalid one time password, check code and try again");
-            error.code = 400;
-            error.data = errors;
+            error.code = 404;
             throw error;
         }
 
@@ -627,7 +623,7 @@ exports.La_user_set_new_password_controller = async function (req, res, next) {
             throw error;
         }
         
-        const newPassword = bcrypt.hash(la_new_password, 12);
+        const newPassword = await bcrypt.hash(la_new_password, 12);
 
         userInformation.la_user_account_password = newPassword;
         userInformation.la_user_account_information_updated_at = Date.now();
@@ -668,7 +664,7 @@ exports.La_user_phone_set_pin_controller = async function (req, res, next) {
             throw error;
         }
 
-        const newPin = bcrypt.hash(la_user_pin, 12);
+        const newPin = await bcrypt.hash(la_user_pin, 12);
 
         userInformation.la_user_account_pin = newPin;
         userInformation.la_user_account_information_updated_at = Date.now();
@@ -715,8 +711,13 @@ exports.La_user_login_information_controller = async function(req, res, next){
 
             if(!userInformation){
                 const error = new Error("Invalid pin");
-                error.data = errors;
                 error.code = 400;
+                throw error;
+            }
+
+            if(userInformation.la_user_account_information_is_verified === false){
+                const error = new Error("Account not verified");
+                error.code = 401;
                 throw error;
             }
 
@@ -754,6 +755,10 @@ exports.La_user_login_information_controller = async function(req, res, next){
                 errors.push({message: "Enter a valid email address"})
             }
 
+            if(validator.isEmpty(la_user_password)){
+                errors.push({message: "Enter a valid password"})
+            }
+
             if(errors.length > 0){
                 const error = new Error("Invalid input");
                 error.data = errors;
@@ -767,15 +772,19 @@ exports.La_user_login_information_controller = async function(req, res, next){
 
             if(!userInformation){
                 const error = new Error("Email address does not exist");
-                error.data = errors;
-                error.code = 400;
+                error.code = 404;
                 throw error;
             }
 
             if(!bcrypt.compare(la_user_password, userInformation.la_user_account_password)){
                 const error = new Error("Wrong email or password");
-                error.data = errors;
                 error.code = 400;
+                throw error;
+            }
+
+            if(userInformation.la_user_account_information_is_verified === false){
+                const error = new Error("Account not verified");
+                error.code = 401;
                 throw error;
             }
 
