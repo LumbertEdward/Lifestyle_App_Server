@@ -690,7 +690,7 @@ exports.La_user_phone_set_pin_controller = async function (req, res, next) {
 }
 
 exports.La_user_login_information_controller = async function(req, res, next){
-    const { la_user_email_address, la_user_account_pin, la_user_password, la_user_login_with } = req.body;
+    const { la_user_email_address, la_user_account_pin, la_user_phone_number, la_user_password, la_user_login_with } = req.body;
     try {
         if(la_user_login_with === "la_phone_number"){
             const errors = []
@@ -706,10 +706,18 @@ exports.La_user_login_information_controller = async function(req, res, next){
             }
 
             const userInformation = await La_user_account_information_model.findOne({
-                la_user_account_pin: la_user_account_pin
+                la_user_phone_number: la_user_phone_number
             })
 
             if(!userInformation){
+                const error = new Error("Phone number does no exist");
+                error.code = 400;
+                throw error;
+            }
+
+            const userPassword = await bcrypt.compare(la_user_account_pin, userInformation.la_user_account_pin)
+
+            if(!userPassword){
                 const error = new Error("Invalid pin");
                 error.code = 400;
                 throw error;
