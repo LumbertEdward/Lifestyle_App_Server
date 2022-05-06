@@ -2,6 +2,11 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const la_work_out_plan_schema = new Schema({
+    la_client_id: {
+        type: String,
+        required: false,
+        trim: true
+    },
     la_work_out_plan_type: {
         type: String,
         required: false,

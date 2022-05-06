@@ -1,13 +1,23 @@
 const mongoose = require('mongoose')
-const Schema = mongoos.Schema
+const Schema = mongoose.Schema
 
 const la_daily_bible_verses_schema = new Schema({
-    la_daily_bible_verses_date: {
-        type: Date,
+    la_client_id: {
+        type: String,
         required: false,
         trim: true
     },
     la_daily_bible_verses_verse: {
+        type: String,
+        required: false,
+        trim: true
+    },
+    la_daily_bible_verses_chapter: {
+        type: Date,
+        required: false,
+        trim: true
+    },
+    la_daily_bible_version: {
         type: String,
         required: false,
         trim: true

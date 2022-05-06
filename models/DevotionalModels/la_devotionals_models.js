@@ -2,6 +2,11 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const la_devotionals_schema = new Schema({
+    la_client_id: {
+        type: String,
+        required: false,
+        trim: true
+    },
     la_devotionals_topic: {
         type: String,
         required: false,

@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const la_daily_quotes_schema = new Schema({
-    la_daily_quotes_date: {
-        type: Date,
+    la_client_id: {
+        type: String,
         required: false,
         trim: true
     },

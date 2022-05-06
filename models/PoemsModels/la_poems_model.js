@@ -2,6 +2,11 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const la_poems_schema = new Schema({
+    la_client_id: {
+        type: String,
+        required: false,
+        trim: true
+    },
     la_poems_topic: {
         type: String,
         required: false,

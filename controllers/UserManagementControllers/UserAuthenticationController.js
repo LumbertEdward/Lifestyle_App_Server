@@ -176,7 +176,7 @@ exports.La_user_account_verification_code_controller = async function (req, res,
             userId: updatedUser._id.toString(),
             la_user_email_address: updatedUser.la_user_email_address
         },
-        "thisisalifestyleappthathelpsclientsmanagehowtheyliveappropriately",
+        process.env.ACCESS_TOKEN_SECRET,
         {expiresIn: "30m"}
         );
 
@@ -184,7 +184,7 @@ exports.La_user_account_verification_code_controller = async function (req, res,
             userId: updatedUser._id.toString(),
             la_user_email_address: updatedUser.la_user_email_address
         },
-        "YW1qdXN0c29tZXdoZXJldHlpbmd0b21ha2VtaXN0YWtlc2xpZmVpc2Z1bGxvZnN0cnVnZ2xlc2hlcmU",
+        process.env.REFRESH_TOKEN_SECRET,
         {expiresIn: "30d"}
         );
 
@@ -570,7 +570,7 @@ exports.La_user_reset_code_verification_controller = async function (req, res, n
             userId: updatedUser._id.toString(),
             la_user_email_address: updatedUser.la_user_email_address
         },
-        "thisisalifestyleappthathelpsclientsmanagehowtheyliveappropriately",
+        process.env.ACCESS_TOKEN_SECRET,
         {expiresIn: "30m"}
         );
 
@@ -578,7 +578,7 @@ exports.La_user_reset_code_verification_controller = async function (req, res, n
             userId: updatedUser._id.toString(),
             la_user_email_address: updatedUser.la_user_email_address
         },
-        "YW1qdXN0c29tZXdoZXJldHlpbmd0b21ha2VtaXN0YWtlc2xpZmVpc2Z1bGxvZnN0cnVnZ2xlc2hlcmU",
+        process.env.REFRESH_TOKEN_SECRET,
         {expiresIn: "30d"}
         );
 
@@ -734,14 +734,14 @@ exports.La_user_login_information_controller = async function(req, res, next){
                 la_user_phone_number: userInformation.la_user_phone_number,
                 la_user_email_address: userInformation.la_user_email_address,
             },
-            "thisisalifestyleappthathelpsclientsmanagehowtheyliveappropriately",
+            process.env.ACCESS_TOKEN_SECRET,
             {expiresIn: "30m"});
 
             const refreshToken = jwt.sign({
                 userId: userInformation._id.toString(),
                 la_user_phone_number: userInformation.la_user_phone_number
             },
-            "YW1qdXN0c29tZXdoZXJldHlpbmd0b21ha2VtaXN0YWtlc2xpZmVpc2Z1bGxvZnN0cnVnZ2xlc2hlcmU",
+            process.env.REFRESH_TOKEN_SECRET,
             {expiresIn: "30d"});
 
             await new La_token_information({
@@ -801,14 +801,14 @@ exports.La_user_login_information_controller = async function(req, res, next){
                 la_user_phone_number: userInformation.la_user_phone_number,
                 la_user_email_address: userInformation.la_user_email_address,
             },
-            "thisisalifestyleappthathelpsclientsmanagehowtheyliveappropriately",
+            process.env.ACCESS_TOKEN_SECRET,
             {expiresIn: "30m"});
 
             const refreshToken = jwt.sign({
                 userId: userInformation._id.toString(),
                 la_user_phone_number: userInformation.la_user_phone_number
             },
-            "YW1qdXN0c29tZXdoZXJldHlpbmd0b21ha2VtaXN0YWtlc2xpZmVpc2Z1bGxvZnN0cnVnZ2xlc2hlcmU",
+            process.env.REFRESH_TOKEN_SECRET,
             {expiresIn: "30d"});
 
             await new La_token_information({
@@ -1094,19 +1094,18 @@ exports.La_mobile_refresh_token_information_controller = async function (req, re
         }
 
         const payload = jwt.verify(refreshToken.la_refresh_token, 
-            "YW1qdXN0c29tZXdoZXJldHlpbmd0b21ha2VtaXN0YWtlc2xpZmVpc2Z1bGxvZnN0cnVnZ2xlc2hlcmU"
+            process.env.REFRESH_TOKEN_SECRET,
         );
 
         const accessToken = jwt.sign({
-            userId: payload.userId,
-            la_user_email_address: payload.la_user_email_address
+            userId: payload.userId 
         },
-        "thisisalifestyleappthathelpsclientsmanagehowtheyliveappropriately",
+        process.env.ACCESS_TOKEN_SECRET,
         {expiresIn: "30m"})
 
         res.status(200).json({
             status: 200,
-            message: "Refresh token generated successfully",
+            message: "Token generated successfully",
             token: accessToken,
             refreshToken: refreshToken.la_refresh_token,
             userId: refreshToken.la_user_id,

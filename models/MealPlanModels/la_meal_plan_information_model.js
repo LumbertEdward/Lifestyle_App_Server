@@ -2,6 +2,11 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const la_meal_plan_information_schema = new Schema({
+    la_client_id: {
+        type: String,
+        required: false,
+        trim: true
+    },
     la_meal_plan_diet_type: {
         type: String,
         required: false,
