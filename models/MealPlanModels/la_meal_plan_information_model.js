@@ -59,7 +59,7 @@ const la_meal_plan_information_schema = new Schema({
             required: false
         }
     ],
-    la_meal_plan_created_by: {
+    la_meal_plan_created_at: {
         type: Date,
         required: false,
         trim: true

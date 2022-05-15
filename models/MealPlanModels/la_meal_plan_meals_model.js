@@ -24,7 +24,7 @@ const la_meal_plan_meals_schema = new Schema({
             required: false
         }
     ],
-    la_meal_plan_meals_created_at: {
+    la_meal_plan_meals_created_at: {    
         type: Date,
         required: false,
         trim: true
