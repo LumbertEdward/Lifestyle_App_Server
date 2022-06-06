@@ -190,4 +190,4 @@ const la_user_account_information_schema = new Schema({
 
 }, {timestamps: true})
 
-module.exports = mongoose.model('la_user_account_information', la_user_account_information_schema)
+module.exports = mongoose.model('la_user_account_informations', la_user_account_information_schema)

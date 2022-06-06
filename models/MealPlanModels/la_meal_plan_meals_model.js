@@ -7,6 +7,11 @@ const la_meal_plan_meals_schema = new Schema({
         required: false,
         trim: true
     },
+    la_meal_plan_meals_name: {
+        type: String,
+        required: false,
+        trim: true
+    },
     la_meal_plan_meals_description: {
         type: String,
         required: false,

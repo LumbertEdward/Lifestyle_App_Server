@@ -5,9 +5,11 @@ const otpGenerator = require('otp-generator');
 const La_clients_account_information_model = require('../../models/UserManagementModels/la_clients_account_information_model');
 const La_token_information = require('../../models/TokenInformation/la_token_information_model');
 
+require('dotenv').config();
+
 const credentials = {
-    apiKey: "",
-    username: ""
+    apiKey: process.env.AFRICASTALKING_API_KEY,
+    username: process.env.AFRICASTALKING_USERNAME
 }
 
 const africastalking = require('africastalking')(credentials)
@@ -48,7 +50,7 @@ exports.La_create_Client_Account_Information_Controller = async function (req, r
                 throw error
             }
 
-            const one_time_password = otpGenerator.generate(6,
+            const one_time_password = otpGenerator.generate(4,
                 {
                     upperCaseAlphabets: false,
                     specialChars: false,
@@ -101,7 +103,7 @@ exports.La_create_Client_Account_Information_Controller = async function (req, r
                 throw error
             }
 
-            const one_time_password = otpGenerator.generate(6,
+            const one_time_password = otpGenerator.generate(4,
                 {
                     upperCaseAlphabets: false,
                     specialChars: false,
@@ -109,6 +111,14 @@ exports.La_create_Client_Account_Information_Controller = async function (req, r
                     digits: true
                 }
             )
+
+            const smsData = {
+                to: la_client_phone_number,
+                message: ("Your Lifehub App One Time Password is").concat(" ", one_time_password),
+                enqueue: true
+            }
+
+            sms.send(smsData);
 
             const clientInformation = new La_clients_account_information_model({
                 la_client_phone_number: la_client_phone_number,
@@ -232,7 +242,7 @@ exports.La_Client_Resend_Verification_Code_Controller = async function (req, res
                 throw error
             }
 
-            const one_time_password = otpGenerator.generate(6,
+            const one_time_password = otpGenerator.generate(4,
                 {
                     upperCaseAlphabets: false,
                     specialChars: false,
@@ -265,7 +275,7 @@ exports.La_Client_Resend_Verification_Code_Controller = async function (req, res
                 throw error
             }
 
-            const one_time_password = otpGenerator.generate(6,
+            const one_time_password = otpGenerator.generate(4,
                 {
                     upperCaseAlphabets: false,
                     specialChars: false,
@@ -273,6 +283,14 @@ exports.La_Client_Resend_Verification_Code_Controller = async function (req, res
                     digits: true
                 }
             )
+
+            const smsData = {
+                to: clientInformation.la_client_phone_number,
+                message: ("Your Lifehub App One Time Password is").concat(" ", one_time_password),
+                enqueue: true
+            }
+
+            sms.send(smsData)
 
             clientInformation.la_client_verification_code = one_time_password;
             clientInformation.la_client_verification_code_expiry_at = Date.now() + 3600000;
@@ -322,7 +340,7 @@ exports.La_Client_Reset_Code_Controller = async function (req, res, next) {
                 throw error
             }
 
-            const one_time_password = otpGenerator.generate(6,
+            const one_time_password = otpGenerator.generate(4,
                 {
                     upperCaseAlphabets: false,
                     specialChars: false,
@@ -367,7 +385,7 @@ exports.La_Client_Reset_Code_Controller = async function (req, res, next) {
                 throw error
             }
 
-            const one_time_password = otpGenerator.generate(6,
+            const one_time_password = otpGenerator.generate(4,
                 {
                     upperCaseAlphabets: false,
                     specialChars: false,
@@ -375,6 +393,14 @@ exports.La_Client_Reset_Code_Controller = async function (req, res, next) {
                     digits: true
                 }
             )
+
+            const smsData = {
+                to: clientInformation.la_client_phone_number,
+                message: ("Your Lifehub App One Time Password is").concat(" ", one_time_password),
+                enqueue: true
+            }
+
+            sms.send(smsData)
 
             clientInformation.la_client_reset_code = one_time_password;
             clientInformation.la_client_reset_code_expiry_at = Date.now() + 3600000;
@@ -412,7 +438,7 @@ exports.La_Client_Resend_Reset_Code_Controller = async function (req, res, next)
                 throw error
             }
 
-            const one_time_password = otpGenerator.generate(6,
+            const one_time_password = otpGenerator.generate(4,
                 {
                     upperCaseAlphabets: false,
                     specialChars: false,
@@ -445,7 +471,7 @@ exports.La_Client_Resend_Reset_Code_Controller = async function (req, res, next)
                 throw error
             }
 
-            const one_time_password = otpGenerator.generate(6,
+            const one_time_password = otpGenerator.generate(4,
                 {
                     upperCaseAlphabets: false,
                     specialChars: false,
@@ -453,6 +479,14 @@ exports.La_Client_Resend_Reset_Code_Controller = async function (req, res, next)
                     digits: true
                 }
             )
+
+            const smsData = {
+                to: clientInformation.la_client_phone_number,
+                message: ("Your Lifehub App One Time Password is").concat(" ", one_time_password),
+                enqueue: true
+            }
+
+            sms.send(smsData)
 
             clientInformation.la_client_reset_code = one_time_password;
             clientInformation.la_client_reset_code_expiry_at = Date.now() + 3600000;
@@ -639,7 +673,7 @@ exports.La_Client_Create_Pin_Controller = async function (req, res, next) {
 }
 
 exports.La_Client_Login_Controller = async function (req, res, next) {
-    const { la_client_email_address, la_client_password, la_client_phone_number, la_client_account_pin, la_login_with } = req.body;
+    const { la_client_email_address, la_client_password, la_client_phone_number, la_login_with } = req.body;
 
     try {
         if (la_login_with === 'la_email_address') {
@@ -715,8 +749,8 @@ exports.La_Client_Login_Controller = async function (req, res, next) {
         }
         else {
             const errors = []
-            if (validator.isEmpty(la_client_account_pin)) {
-                errors.push({ message: 'Invalid Pin' })
+            if (validator.isEmpty(la_client_phone_number)) {
+                errors.push({ message: 'Invalid Phone Number' })
             }
 
             if (errors.length > 0) {
@@ -736,48 +770,39 @@ exports.La_Client_Login_Controller = async function (req, res, next) {
                 throw error
             }
 
-            const confirmPin = await bcrypt.compare(la_client_account_pin, clientInformation.la_client_account_pin)
-
-            if (!confirmPin) {
-                const error = new Error('Invalid Pin')
-                error.code = 404
-                throw error
-            }
-
             if (!clientInformation.la_client_is_verified) {
                 const error = new Error('Account Not Verified')
                 error.code = 401
                 throw error
             }
 
-            const accessToken = jwt.sign(
+            const one_time_password = otpGenerator.generate(4,
                 {
-                    userId: clientInformation._id,
-                    email: clientInformation.la_client_email_address,
-                }, process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: '30m' }
-            )
+                    upperCaseAlphabets: false,
+                    specialChars: false,
+                    lowerCaseAlphabets: false,
+                    digits: true
+                }
+            );
 
-            const refreshToken = jwt.sign(
-                {
-                    userId: clientInformation._id,
-                    email: clientInformation.la_client_email_address,
-                },
-                process.env.REFRESH_TOKEN_SECRET,
-                { expiresIn: '30d' }
-            )
+            const smsData = {
+                to: clientInformation.la_client_phone_number,
+                message: ("Your Lifehub App One Time Password is").concat(" ", one_time_password),
+                enqueue: true
+            }
 
-            await La_token_information({
-                la_user_id: clientInformation._id,
-                la_refresh_token: refreshToken,
-            }).save()
+            sms.send(smsData)
+
+            clientInformation.la_client_verification_code = one_time_password;
+            clientInformation.la_client_verification_code_expiry_at = Date.now() + 3600000;
+            clientInformation.la_client_updated_at = Date.now();
+            await clientInformation.save();
 
             res.status(200).json({
                 status: 200,
                 message: "Login Successful",
                 id: clientInformation._id,
-                token: accessToken,
-                refreshToken: refreshToken,
+                one_time_password: one_time_password,
             })
 
         }
@@ -820,9 +845,35 @@ exports.La_Client_Unlock_Pin_Controller = async function (req, res, next) {
             throw error
         }
 
+        const accessToken = jwt.sign(
+            {
+                userId: clientInformation._id,
+                email: clientInformation.la_client_email_address,
+            },
+            process.env.ACCESS_TOKEN_SECRET,
+            { expiresIn: '30m' }
+        )
+
+        const refreshToken = jwt.sign(
+            {
+                userId: clientInformation._id,
+                email: clientInformation.la_client_email_address,
+            },
+            process.env.REFRESH_TOKEN_SECRET,
+            { expiresIn: '30d' }
+        )
+
+        await new La_token_information({
+            la_user_id: clientInformation._id,
+            la_refresh_token: refreshToken,
+        }).save()
+
         res.status(200).json({
             status: 200,
             message: "Pin Unlocked Successfully",
+            _id: clientInformation._id,
+            accessToken: accessToken,
+            refreshToken: refreshToken,
             ...clientInformation._doc,
         })
 
@@ -999,17 +1050,17 @@ exports.La_Client_Update_Profile_Information_Controller = async function (req, r
     }
 }
 
-exports.La_Create_Client_Address_Information_Controller = async function (req, res, next){
-    const { 
+exports.La_Create_Client_Address_Information_Controller = async function (req, res, next) {
+    const {
         la_client_country,
         la_client_city,
         la_client_state,
         la_client_postal_code,
         la_client_address_one,
         la_client_address_two
-     } = req.body;
-    try{
-        if(!req.isAuth){
+    } = req.body;
+    try {
+        if (!req.isAuth) {
             const error = new Error("Unauthorised access, Login to continue");
             error.code = 401;
             throw error;
@@ -1017,7 +1068,7 @@ exports.La_Create_Client_Address_Information_Controller = async function (req, r
 
         const clientInformation = await La_clients_account_information_model.findById(req.userId)
 
-        if(!clientInformation){
+        if (!clientInformation) {
             const error = new Error("User not found");
             error.code = 404;
             throw error;
@@ -1042,8 +1093,8 @@ exports.La_Create_Client_Address_Information_Controller = async function (req, r
             ...updatedInformation._doc,
         })
     }
-    catch(error){
-        res.json({message: error.message, status: error.code})
+    catch (error) {
+        res.json({ message: error.message, status: error.code })
         next()
     }
 }

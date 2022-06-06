@@ -378,9 +378,6 @@
                 "la_user_email_address": {
                   "example": "any"
                 },
-                "la_user_account_pin": {
-                  "example": "any"
-                },
                 "la_user_phone_number": {
                   "example": "any"
                 },
@@ -388,6 +385,30 @@
                   "example": "any"
                 },
                 "la_user_login_with": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/La_user_unlock_pin_information": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_user_account_pin": {
                   "example": "any"
                 }
               }
@@ -693,9 +714,6 @@
                 "la_client_phone_number": {
                   "example": "any"
                 },
-                "la_client_account_pin": {
-                  "example": "any"
-                },
                 "la_login_with": {
                   "example": "any"
                 }
@@ -764,6 +782,813 @@
         "parameters": [
           {
             "name": "la_refresh_token",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_client_update_account_information": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_client_first_name": {
+                  "example": "any"
+                },
+                "la_client_last_name": {
+                  "example": "any"
+                },
+                "la_client_middle_name": {
+                  "example": "any"
+                },
+                "la_client_username": {
+                  "example": "any"
+                },
+                "la_client_date_of_birth": {
+                  "example": "any"
+                },
+                "la_client_gender": {
+                  "example": "any"
+                },
+                "la_client_identification_type": {
+                  "example": "any"
+                },
+                "la_client_identification_number": {
+                  "example": "any"
+                },
+                "la_client_identification_country_of_issue": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_client_create_address_information": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_client_country": {
+                  "example": "any"
+                },
+                "la_client_city": {
+                  "example": "any"
+                },
+                "la_client_state": {
+                  "example": "any"
+                },
+                "la_client_postal_code": {
+                  "example": "any"
+                },
+                "la_client_address_one": {
+                  "example": "any"
+                },
+                "la_client_address_two": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_create_poem_information": {
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/la_update_poem_information/{la_poems_id}": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_poems_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/la_delete_poem_information/{la_poems_id}": {
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_poems_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/la_create_bible_verses_information": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_daily_bible_verses_verse": {
+                  "example": "any"
+                },
+                "la_daily_bible_verses_chapter": {
+                  "example": "any"
+                },
+                "la_daily_bible_version": {
+                  "example": "any"
+                },
+                "la_daily_bible_verses_feeling": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_update_bible_verses_information/{la_bible_verse_id}": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_bible_verse_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_daily_bible_verses_verse": {
+                  "example": "any"
+                },
+                "la_daily_bible_verses_chapter": {
+                  "example": "any"
+                },
+                "la_daily_bible_version": {
+                  "example": "any"
+                },
+                "la_daily_bible_verses_feeling": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_delete_bible_verses_information/{la_bible_verse_id}": {
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_bible_verse_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_create_daily_quotes_information": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_daily_quotes_quote": {
+                  "example": "any"
+                },
+                "la_daily_quotes_author": {
+                  "example": "any"
+                },
+                "la_daily_quotes_category": {
+                  "example": "any"
+                },
+                "la_daily_quotes_source": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_update_daily_quotes_information/{la_daily_quotes_id}": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_daily_quotes_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_daily_quotes_quote": {
+                  "example": "any"
+                },
+                "la_daily_quotes_author": {
+                  "example": "any"
+                },
+                "la_daily_quotes_category": {
+                  "example": "any"
+                },
+                "la_daily_quotes_source": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_delete_daily_quotes_information/{la_daily_quotes_id}": {
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_daily_quotes_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_create_meal_plans_information": {
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/la_update_meal_plans_information/{la_meal_plan_id}": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_meal_plan_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/la_delete_meal_plans_information/{la_meal_plan_id}": {
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_meal_plan_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/la_add_meal_plan_meals_information/{la_meal_plan_id}": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_meal_plan_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/la_update_meal_plan_meals_information/{la_meal_plan_meals_id}": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_meal_plan_meals_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/la_delete_meal_plan_meals_information/{la_meal_plan_meals_id}": {
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_meal_plan_meals_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/la_create_meal_category_information/{la_meal_id}": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_meal_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/la_update_meal_category_information/{la_meal_plan_meals_category_id}": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_meal_plan_meals_category_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/la_delete_meal_category_information/{la_meal_plan_meals_category_id}": {
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_meal_plan_meals_category_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/la_add_category_type_information/{la_meal_plan_meals_category_id}": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_meal_plan_meals_category_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_meal_plan_meals_category_type_name": {
+                  "example": "any"
+                },
+                "la_meal_plan_meals_category_type_description": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_update_category_type_information/{la_meal_plan_meals_category_type_id}": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_meal_plan_meals_category_type_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_meal_plan_meals_category_type_name": {
+                  "example": "any"
+                },
+                "la_meal_plan_meals_category_type_description": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_delete_category_type_information/{la_meal_plan_meals_category_type_id}": {
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_meal_plan_meals_category_type_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_create_devotional_information": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_client_id": {
+                  "example": "any"
+                },
+                "la_devotionals_topic": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_update_devotional_information/{la_devotionals_id}": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_devotionals_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_devotionals_topic": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_delete_devotional_information/{la_devotionals_id}": {
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_devotionals_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_add_devotional_title_information/{la_devotionals_id}": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_devotionals_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_devotionals_title": {
+                  "example": "any"
+                },
+                "la_devotionals_author": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_add_devotional_title_verses_information/{la_devotionals_titles_id}": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_devotionals_titles_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_devotionals_titles_verses": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_add_devotional_title_content_information/{la_devotionals_titles_id}": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_devotionals_titles_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_devotional_sermon_audio_url": {
+                  "example": "any"
+                },
+                "la_devotional_sermon_author": {
+                  "example": "any"
+                },
+                "la_devotional_sermon_content": {
+                  "example": "any"
+                },
+                "la_devotional_sermon_image": {
+                  "example": "any"
+                },
+                "la_devotional_sermon_video_url": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_update_devotional_title_information/{la_devotional_title_id}": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_devotional_title_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_devotionals_title": {
+                  "example": "any"
+                },
+                "la_devotionals_author": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_update_devotional_title_content_information/{la_devotionals_title_id}": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_devotionals_title_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_devotional_sermon_audio_url": {
+                  "example": "any"
+                },
+                "la_devotional_sermon_author": {
+                  "example": "any"
+                },
+                "la_devotional_sermon_content": {
+                  "example": "any"
+                },
+                "la_devotional_sermon_image": {
+                  "example": "any"
+                },
+                "la_devotional_sermon_video_url": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_get_devotional_topics_information": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_get_devotional_topic_titles_information/{la_devotionals_topic_id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_devotionals_topic_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_get_devotional_title_content_information/{la_devotionals_title_id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_devotionals_title_id",
             "in": "path",
             "required": true,
             "type": "string"

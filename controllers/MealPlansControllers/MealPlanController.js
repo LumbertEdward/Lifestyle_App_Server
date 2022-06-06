@@ -170,12 +170,81 @@ exports.La_Delete_Meal_Plan_Controller = async function (req, res, next) {
     }
 }
 
+exports.La_Get_Meal_Plans_Controller = async function (req, res, next) {
+    try{
+        if(!req.isAuth){
+            const error = new Error("Unauthorised access, Login to continue")
+            error.code = 401;
+            throw error;
+        }
+
+        const userInformation = await La_clients_account_information_model.findById(req.userId)
+
+        if(!userInformation){
+            const error = new Error("User not found")
+            error.code = 404;
+            throw error;
+        }
+
+        const mealPlans = await La_Meal_Plan_meals.find()
+
+        res.status(200).json({
+            status: 200,
+            message: "Meal Plans fetched successfully",
+            data: mealPlans
+        })
+    }
+    catch(error){
+        res.json({ message: error.message, status: error.code })
+        next()
+    }
+}
+
+exports.La_Get_Meal_Plan_Details_Controller = async function (req, res, next) {
+    const { la_meal_plan_id } = req.params;
+
+    try{
+        if(!req.isAuth){
+            const error = new Error("Unauthorised access, Login to continue")
+            error.code = 401;
+            throw error;
+        }
+
+        const userInformation = await La_clients_account_information_model.findById(req.userId)
+
+        if(!userInformation){
+            const error = new Error("User not found")
+            error.code = 404;
+            throw error;
+        }
+
+        const mealPlan = await La_Meal_Plan_meals.findById(la_meal_plan_id)
+
+        if(!mealPlan){
+            const error = new Error("Meal Plan not found")
+            error.code = 404;
+            throw error;
+        }
+
+        res.status(200).json({
+            status: 200,
+            message: "Meal Plan fetched successfully",
+            data: mealPlan
+        })
+    }
+    catch(error){
+        res.json({ message: error.message, status: error.code })
+        next()
+    }
+}
+
 //meal
 
 exports.La_Add_Meal_Controller = async function (req, res, next) {
     const { la_meal_plan_id } = req.params;
     const {
         la_meal_plan_meals_day,
+        la_meal_plan_meals_name,
         la_meal_plan_meals_description,
         la_meal_plan_information_id,
     }
@@ -208,6 +277,7 @@ exports.La_Add_Meal_Controller = async function (req, res, next) {
 
         const addedMeal = new La_meal_Plan_Meals_Meal({
             la_meal_plan_meals_day: la_meal_plan_meals_day,
+            la_meal_plan_meals_name: la_meal_plan_meals_name,
             la_meal_plan_meals_description: la_meal_plan_meals_description,
             la_meal_plan_information_id: la_meal_plan_information_id,
             la_meal_plan_meals_created_at: Date.now(),
@@ -218,7 +288,7 @@ exports.La_Add_Meal_Controller = async function (req, res, next) {
 
         mealPlan.la_meal_plan_meals.push(savedMeal._id);
 
-        const savedMealPlan = await mealPlan.save();
+        await mealPlan.save();
 
         res.status(200).json({
             status: 200,
@@ -311,6 +381,88 @@ exports.La_Delete_Meal_Controller = async function (req, res, next) {
         });
     }
     catch (error) {
+        res.json({ message: error.message, status: error.code })
+        next()
+    }
+}
+
+exports.La_Get_Meal_Plan_Meals_Controller = async function (req, res, next) {
+    const { la_meal_plan_id } = req.params;
+
+    try{
+        if(!req.isAuth){
+            const error = new Error("Unauthorised access, Login to continue")
+            error.code = 401;
+            throw error;
+        }
+
+        const userInformation = await La_clients_account_information_model.findById(req.userId)
+
+        if(!userInformation){
+            const error = new Error("User not found")
+            error.code = 404;
+            throw error;
+        }
+
+        const mealPlan = await La_Meal_Plan_meals.findById(la_meal_plan_id)
+
+        if(!mealPlan){
+            const error = new Error("Meal Plan not found")
+            error.code = 404;
+            throw error;
+        }
+
+        const mealPlanMeals = await La_meal_Plan_Meals_Meal.find({
+            la_meal_plan_information_id: la_meal_plan_id
+        })
+
+        res.status(200).json({
+            status: 200,
+            message: "Meal Plan Meals retrieved successfully",
+            data: mealPlanMeals
+        })
+    }
+    catch(error){
+        res.json({ message: error.message, status: error.code })
+        next()
+    }
+}
+
+exports.La_Get_Single_Meal_Details_Controller = async function (req, res, next) {
+    const { la_meal_plan_meal_id } = req.params;
+
+    try{
+        if(!req.isAuth){
+            const error = new Error("Unauthorised access, Login to continue")
+            error.code = 401;
+            throw error;
+        }
+
+        const userInformation = await La_clients_account_information_model.findById(req.userId)
+
+        if(!userInformation){
+            const error = new Error("User not found")
+            error.code = 404;
+            throw error;
+        }
+
+        const mealPlanMeal = await La_meal_Plan_Meals_Meal.findById(la_meal_plan_meal_id)
+
+        if(!mealPlanMeal){
+            const error = new Error("Meal not found")
+            error.code = 404;
+            throw error;
+        }
+
+        res.status(200).json({
+            status: 200,
+            message: "Meal retrieved successfully",
+            data: mealPlanMeal
+        })
+
+
+    }
+    catch(error){
         res.json({ message: error.message, status: error.code })
         next()
     }
@@ -460,6 +612,46 @@ exports.La_Delete_Meal_Category_Controller = async function (req, res, next) {
     }
 }
 
+exports.La_Get_Meal_Catogories_Controller = async function (req, res, next) {
+    const { la_meal_id } = req.params;
+
+    try{
+        if(!req.isAuth){
+            const error = new Error("Unauthorised access, Login to continue")
+            error.code = 401;
+            throw error;
+        }
+
+        const userInformation = await La_clients_account_information_model.findById(req.userId)
+
+        if(!userInformation){
+            const error = new Error("User not found")
+            error.code = 404;
+            throw error;
+        }
+
+        const meal = await La_meal_Plan_Meals_Meal.findById(la_meal_id)
+
+        if(!meal){
+            const error = new Error("Meal not found")
+            error.code = 404;
+            throw error;
+        }
+
+        const allCats = meal.la_meal_plan_meals_category.map(async (item) => (
+            await La_Meal_Plan_Meals_Category.find({
+                _id: item._id
+            })
+        ));
+
+        
+    }
+    catch(error) {
+        res.json({ message: error.message, status: error.code })
+        next()
+    }
+}
+
 //category type
 
 exports.La_Add_Category_Type_Controller = async function (req, res, next) {
@@ -502,7 +694,7 @@ exports.La_Add_Category_Type_Controller = async function (req, res, next) {
 
         const categoryType = await addedCategoryType.save();
 
-        mealCategory.la_meal_plan_meals_category_type.push(categoryType._id);
+        mealCategory.la_meal_plan_meals_category_meal_category_types.push(categoryType._id);
 
         await mealCategory.save();
 

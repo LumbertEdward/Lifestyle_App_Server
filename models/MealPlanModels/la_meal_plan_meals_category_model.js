@@ -7,9 +7,9 @@ const la_meal_plan_meals_category_schema = new Schema({
         required: false,
         trim: true
     },
-    la_meal_plan_meals_category_meal_name: [
+    la_meal_plan_meals_category_meal_category_types: [
         {
-            type: Schema.Type.ObjectId,
+            type: Schema.Types.ObjectId,
             ref: 'la_meal_plan_meals_category_type',
             required: false
         }
