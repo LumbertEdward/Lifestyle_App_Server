@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "Implemented in Nodejs, Express, MongoDB, Mongoose",
   "private": true,
+  "main": "index.js",
   "scripts": {
     "start": "node utils/swagger.js && node ./bin/www",
     "swagger": "node swagger.js",
@@ -39,5 +40,8 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
+  },
+  "engines": {
+    "node": ">=14"
   }
 }
