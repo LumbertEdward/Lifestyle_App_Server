@@ -10,6 +10,10 @@
     "start:dev": "node utils/swagger.js && nodemon ./bin/www",
     "start-server": "node ./bin/www"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LumbertEdward/Lifestyle_App_Server.git"
+  },
   "dependencies": {
     "@prisma/client": "^3.12.0",
     "africastalking": "^0.5.5",
