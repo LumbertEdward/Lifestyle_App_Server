@@ -3,7 +3,9 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const otpGenerator = require('otp-generator');
 const La_user_account_information_model = require('../../models/UserManagementModels/la_user_account_information_model');
-const La_token_information = require('../../models/TokenInformation/la_token_information_model');
+const La_token_information = require('../../models/TokenInformation/la_token_information_model')
+
+//comment
 
 require('dotenv').config();
 
