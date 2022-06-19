@@ -109,7 +109,7 @@ router.post('/la_user_phone_login_verification_code/:la_user_verification_code',
 
 router.post('/la_user_phone_login_resend_verification_code/:la_user_phone_number', La_user_phone_resend_login_verification_code_controller)
 
-router.post('/la_user_unlock_pin_information', La_user_unlock_pin_information_controller)
+router.post('/la_user_unlock_pin_information/:la_user_id', La_user_unlock_pin_information_controller)
 
 router.post('/la_user_log_out/:la_user_id', La_user_log_out_controller)
 
