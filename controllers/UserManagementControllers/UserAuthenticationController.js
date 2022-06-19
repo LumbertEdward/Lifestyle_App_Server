@@ -20,7 +20,7 @@ const sms = africastalking.SMS;
 exports.La_create_user_account_controller = async function (req, res, next) {
     const { la_user_email_address, la_user_phone_number, la_user_password, la_sign_up_with } = req.body;
     try {
-        if(la_sign_up_with == "la_phone_number") {
+        if (la_sign_up_with == "la_phone_number") {
             const errors = [];
             if (validator.isEmpty(la_user_phone_number)) {
                 errors.push({ message: "Enter a valid phone number" })
@@ -470,8 +470,8 @@ exports.La_user_pin_reset_code_verification_controller = async function (req, re
 
         const accountInformation = await La_user_account_information_model.findOne({
             la_user_account_pin_reset_code: la_user_account_pin_reset_code,
-            la_user_account_pin_reset_code_expiry_date: { 
-                $gte: Date.now() 
+            la_user_account_pin_reset_code_expiry_date: {
+                $gte: Date.now()
             }
         })
 
@@ -1030,7 +1030,7 @@ exports.La_user_login_information_controller = async function (req, res, next) {
 
 exports.La_user_phone_login_verification_code_controller = async function (req, res, next) {
     const { la_user_verification_code } = req.params;
-    try{
+    try {
         const errors = []
         if (validator.isEmpty(la_user_verification_code)) {
             errors.push({ message: "Enter a valid verification code" })
@@ -1045,8 +1045,8 @@ exports.La_user_phone_login_verification_code_controller = async function (req, 
 
         const userInformation = await La_user_account_information_model.findOne({
             la_user_account_verification_code: la_user_verification_code,
-            la_user_account_verification_code_expiry_date: { 
-                $gte: Date.now() 
+            la_user_account_verification_code_expiry_date: {
+                $gte: Date.now()
             }
         })
 
@@ -1056,7 +1056,7 @@ exports.La_user_phone_login_verification_code_controller = async function (req, 
             throw error;
         }
 
-        if(userInformation.la_user_account_information_is_verified !== true){
+        if (userInformation.la_user_account_information_is_verified !== true) {
             const error = new Error("Account not verified");
             error.code = 401;
             throw error;
@@ -1096,7 +1096,74 @@ exports.La_user_phone_login_verification_code_controller = async function (req, 
             refreshToken: refreshToken
         })
     }
-    catch(error){
+    catch (error) {
+        res.json({ message: error.message, status: error.code })
+        next()
+    }
+}
+
+exports.La_user_phone_resend_login_verification_code_controller = async function (req, res, next) {
+    const { la_user_phone_number } = req.params;
+    try {
+        const errors = []
+        if (validator.isEmpty(la_user_phone_number)) {
+            errors.push({ message: "Enter a valid phone number" })
+        }
+
+        if (errors.length > 0) {
+            const error = new Error("Invalid input");
+            error.data = errors;
+            error.code = 400;
+            throw error;
+        }
+
+        const userInformation = await La_user_account_information_model.findOne({
+            la_user_phone_number: la_user_phone_number
+        })
+
+        if (!userInformation) {
+            const error = new Error("Phone number does no exist");
+            error.code = 400;
+            throw error;
+        }
+
+
+        if (userInformation.la_user_account_information_is_verified === false) {
+            const error = new Error("Account not verified");
+            error.code = 401;
+            throw error;
+        }
+
+        const one_time_password = otpGenerator.generate(4,
+            {
+                upperCaseAlphabets: false,
+                lowerCaseAlphabets: false,
+                digits: true,
+                specialChars: false,
+            }
+        )
+
+        const smsData = {
+            to: userInformation.la_user_phone_number,
+            message: ("Your Lifehub App One Time Password is").concat(" ", one_time_password),
+            enqueue: true,
+        }
+
+        // sms.send(smsData)
+
+        userInformation.la_user_account_verification_code = one_time_password;
+        userInformation.la_user_account_verification_code_expiry_date = Date.now() + 360000;
+        userInformation.la_user_account_information_updated_at = Date.now();
+        await userInformation.save()
+
+        res.status(200).json({
+            status: 200,
+            message: "Code sent",
+            _id: userInformation._id.toString(),
+            one_time_password: one_time_password
+        })
+    }
+    catch (error) {
         res.json({ message: error.message, status: error.code })
         next()
     }
