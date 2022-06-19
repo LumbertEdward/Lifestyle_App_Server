@@ -364,7 +364,7 @@ exports.La_user_pin_reset_controller = async function (req, res, next) {
         })
 
         const smsData = {
-            to: userInformation.la_user_phone_number,
+            to: currentAccount.la_user_phone_number,
             message: ("Your Lifehub App One Time Password is").concat(" ", one_time_password),
             enqueue: true,
         }
