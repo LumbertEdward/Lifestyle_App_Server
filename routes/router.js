@@ -56,6 +56,7 @@ const {
     La_user_set_new_password_controller,
     La_user_phone_set_pin_controller,
     La_user_login_information_controller,
+    La_user_phone_login_verification_code_controller,
     La_user_unlock_pin_information_controller,
     La_user_update_profile_information_controller,
     La_user_update_health_information_controller,
@@ -94,7 +95,9 @@ router.patch('/la_user_update_health_information', La_user_update_health_informa
 
 router.post('/la_user_login_information', La_user_login_information_controller)
 
-router.post('/La_user_unlock_pin_information', La_user_unlock_pin_information_controller)
+router.post('/la_user_phone_login_verification_code/:la_user_verification_code', La_user_phone_login_verification_code_controller)
+
+router.post('/la_user_unlock_pin_information', La_user_unlock_pin_information_controller)
 
 router.post('/la_user_log_out/:la_user_id', La_user_log_out_controller)
 

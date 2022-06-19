@@ -862,6 +862,80 @@ exports.La_user_login_information_controller = async function (req, res, next) {
     }
 }
 
+exports.La_user_phone_login_verification_code_controller = async function (req, res, next) {
+    const { la_user_verification_code } = req.params;
+    try{
+        const errors = []
+        if (validator.isEmpty(la_user_verification_code)) {
+            errors.push({ message: "Enter a valid verification code" })
+        }
+
+        if (errors.length > 0) {
+            const error = new Error("Invalid input");
+            error.data = errors;
+            error.code = 400;
+            throw error;
+        }
+
+        const userInformation = await La_user_account_information_model.findOne({
+            la_user_account_verification_code: la_user_verification_code,
+            la_user_account_verification_code_expiry_date: { 
+                $gte: Date.now() 
+            }
+        })
+
+        if (!userInformation) {
+            const error = new Error("Verification code does not exist");
+            error.code = 404;
+            throw error;
+        }
+
+        if(userInformation.la_user_account_information_is_verified !== true){
+            const error = new Error("Account not verified");
+            error.code = 401;
+            throw error;
+        }
+
+        userInformation.la_user_account_verification_code = undefined;
+        userInformation.la_user_account_verification_code_expiry_date = undefined;
+        userInformation.la_user_account_information_updated_at = Date.now();
+        const updatedUser = await userInformation.save()
+
+        const accessToken = jwt.sign({
+            userId: updatedUser._id.toString(),
+            la_user_email_address: updatedUser.la_user_email_address
+        },
+            process.env.ACCESS_TOKEN_SECRET,
+            { expiresIn: "30m" }
+        );
+
+        const refreshToken = jwt.sign({
+            userId: updatedUser._id.toString(),
+            la_user_email_address: updatedUser.la_user_email_address
+        },
+            process.env.REFRESH_TOKEN_SECRET,
+            { expiresIn: "30d" }
+        );
+
+        await new La_token_information({
+            la_refresh_token: refreshToken,
+            la_user_id: updatedUser._id.toString(),
+        }).save()
+
+        res.status(200).json({
+            status: 200,
+            message: "Login successful",
+            _id: updatedUser._id.toString(),
+            token: accessToken,
+            refreshToken: refreshToken
+        })
+    }
+    catch(error){
+        res.json({ message: error.message, status: error.code })
+        next()
+    }
+}
+
 exports.La_user_unlock_pin_information_controller = async function (req, res, next) {
     const { la_user_account_pin } = req.body;
     const { la_user_id } = req.params;
