@@ -919,7 +919,7 @@ exports.La_user_login_information_controller = async function (req, res, next) {
             }
 
 
-            if (userInformation.la_user_account_information_is_verified === false) {
+            if (userInformation.la_user_account_information_is_verified == false) {
                 const error = new Error("Account not verified");
                 error.code = 401;
                 throw error;
