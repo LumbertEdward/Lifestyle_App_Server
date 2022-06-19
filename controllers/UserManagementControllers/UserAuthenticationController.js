@@ -660,7 +660,7 @@ exports.La_user_resend_reset_code_controller = async function (req, res, next) {
                 enqueue: true,
             }
 
-            sms.send(smsData)
+            // sms.send(smsData)
 
             userInformation.la_user_account_reset_code = one_time_password;
             userInformation.la_user_account_reset_code_expiry_date = Date.now() + 3600000;
@@ -940,7 +940,7 @@ exports.La_user_login_information_controller = async function (req, res, next) {
                 enqueue: true,
             }
 
-            sms.send(smsData)
+            // sms.send(smsData)
 
             userInformation.la_user_account_verification_code = one_time_password;
             userInformation.la_user_account_verification_code_expiry_date = Date.now() + 360000;
