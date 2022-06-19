@@ -123,6 +123,16 @@ const la_user_account_information_schema = new Schema({
         required: false,
         trim: true
     },
+    la_user_account_pin_reset_code: {
+        type: String,
+        required: false,
+        trim: true
+    },
+    la_user_account_pin_reset_code_expiry_date: {
+        type: Date,
+        required: false,
+        trim: true
+    },
     la_user_account_information_is_verified: {
         type: Boolean,
         required: false,

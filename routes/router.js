@@ -49,14 +49,17 @@ const {
     La_create_user_account_controller, 
     La_user_account_verification_code_controller, 
     La_user_account_resend_verification_code_controller, 
-    La_user_phone_reset_code_controller,
+    La_user_pin_reset_controller,
     La_user_email_reset_code_controller,
     La_user_resend_reset_code_controller,
     La_user_reset_code_verification_controller,
     La_user_set_new_password_controller,
     La_user_phone_set_pin_controller,
+    La_user_pin_resend_reset_verification_controller,
+    La_user_pin_reset_code_verification_controller,
     La_user_login_information_controller,
     La_user_phone_login_verification_code_controller,
+    La_user_phone_set_new_pin_controller,
     La_user_unlock_pin_information_controller,
     La_user_update_profile_information_controller,
     La_user_update_health_information_controller,
@@ -75,8 +78,6 @@ router.post('/la_user_account_verification_information/:la_user_account_verifica
 
 router.post('/la_resend_user_verification_code', La_user_account_resend_verification_code_controller)
 
-router.post('/la_user_phone_reset_code', La_user_phone_reset_code_controller)
-
 router.post('/la_user_email_reset_code', La_user_email_reset_code_controller)
 
 router.post('/la_resend_reset_code', La_user_resend_reset_code_controller)
@@ -86,6 +87,14 @@ router.post('/la_user_reset_code_verification/:la_user_account_reset_code', La_u
 router.post('/la_user_set_new_password', La_user_set_new_password_controller)
 
 router.post('/la_phone_user_set_pin', La_user_phone_set_pin_controller)
+
+router.post('/la_user_pin_reset', La_user_pin_reset_controller)
+
+router.post('/la_user_pin_resend_reset_code', La_user_pin_resend_reset_verification_controller)
+
+router.post('/la_user_pin_reset_code_verification/:la_user_account_pin_reset_code', La_user_pin_reset_code_verification_controller)
+
+router.post('/la_user_set_new_pin', La_user_phone_set_new_pin_controller)
 
 router.patch('/la_user_update_profile_information', La_user_update_profile_information_controller)
 

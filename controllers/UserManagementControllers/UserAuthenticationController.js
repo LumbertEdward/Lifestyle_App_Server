@@ -331,7 +331,7 @@ exports.La_user_account_resend_verification_code_controller = async function (re
     }
 }
 
-exports.La_user_phone_reset_code_controller = async function (req, res, next) {
+exports.La_user_pin_reset_controller = async function (req, res, next) {
     const { la_user_phone_number } = req.body;
     try {
         const errors = []
@@ -371,8 +371,8 @@ exports.La_user_phone_reset_code_controller = async function (req, res, next) {
 
         // sms.send(smsData)
 
-        currentAccount.la_user_account_reset_code = one_time_password;
-        currentAccount.la_user_account_reset_code_expiry_date = Date.now() + 3600000;
+        currentAccount.la_user_account_pin_reset_code = one_time_password;
+        currentAccount.la_user_account_pin_reset_code_expiry_date = Date.now() + 3600000;
         currentAccount.la_user_account_information_updated_at = Date.now();
 
         const updatedUser = await currentAccount.save()
@@ -382,16 +382,182 @@ exports.La_user_phone_reset_code_controller = async function (req, res, next) {
             message: "Reset code sent successfully",
             _id: updatedUser._id.toString(),
             la_user_phone_number: updatedUser.la_user_phone_number,
-            la_user_account_reset_code: updatedUser.la_user_account_reset_code,
-            la_user_account_reset_code_expiry_date: updatedUser.la_user_account_reset_code_expiry_date,
-            la_user_account_information_created_at: updatedUser.la_user_account_information_created_at,
-            la_user_account_information_updated_at: updatedUser.la_user_account_information_updated_at,
-            la_user_account_information_is_verified: updatedUser.la_user_account_information_is_verified,
-            la_user_account_information_is_locked: updatedUser.la_user_account_information_is_locked,
+            la_user_account_pin_reset_code: updatedUser.la_user_account_pin_reset_code
         })
 
 
     } catch (error) {
+        res.json({ message: error.message, status: error.code })
+        next()
+    }
+}
+
+exports.La_user_pin_resend_reset_verification_controller = async function (req, res, next) {
+    const { la_user_phone_number } = req.body;
+    try {
+        const errors = []
+        if (validator.isEmpty(la_user_phone_number)) {
+            errors.push({ message: "Enter a valid phone number" })
+        }
+
+        if (errors.length > 0) {
+            const error = new Error("Invalid input");
+            error.data = errors;
+            error.code = 400;
+            throw error;
+        }
+
+        const currentAccount = await La_user_account_information_model.findOne({
+            la_user_phone_number: la_user_phone_number
+        })
+
+        if (!currentAccount) {
+            const error = new Error("Phone number not found");
+            error.code = 404;
+            throw error;
+        }
+
+        const one_time_password = otpGenerator.generate(4, {
+            specialChars: false,
+            lowerCaseAlphabets: false,
+            upperCaseAlphabets: false,
+            digits: true
+        })
+
+        const smsData = {
+            to: userInformation.la_user_phone_number,
+            message: ("Your Lifehub App One Time Password is").concat(" ", one_time_password),
+            enqueue: true,
+        }
+
+        // sms.send(smsData)
+
+        currentAccount.la_user_account_pin_reset_code = one_time_password;
+        currentAccount.la_user_account_pin_reset_code_expiry_date = Date.now() + 3600000;
+        currentAccount.la_user_account_information_updated_at = Date.now();
+
+        const updatedUser = await currentAccount.save()
+
+        res.status(200).json({
+            status: 200,
+            message: "Reset code sent successfully",
+            _id: updatedUser._id.toString(),
+            la_user_phone_number: updatedUser.la_user_phone_number,
+            la_user_account_pin_reset_code: updatedUser.la_user_account_pin_reset_code
+        })
+
+
+    } catch (error) {
+        res.json({ message: error.message, status: error.code })
+        next()
+    }
+}
+
+exports.La_user_pin_reset_code_verification_controller = async function (req, res, next) {
+    const { la_user_account_pin_reset_code } = req.params;
+    try {
+        const errors = []
+        if (validator.isEmpty(la_user_account_pin_reset_code)) {
+            errors.push({ message: "Enter a valid reset code" })
+        }
+
+        if (errors.length > 0) {
+            const error = new Error("Invalid input");
+            error.data = errors;
+            error.code = 400;
+            throw error;
+        }
+
+        const accountInformation = await La_user_account_information_model.findOne({
+            la_user_account_pin_reset_code: la_user_account_pin_reset_code,
+            la_user_account_pin_reset_code_expiry_date: { 
+                $gte: Date.now() 
+            }
+        })
+
+        if (!accountInformation) {
+            const error = new Error("Reset code not found");
+            error.code = 404;
+            throw error;
+        }
+
+        accountInformation.la_user_account_pin_reset_code = undefined;
+        accountInformation.la_user_account_pin_reset_code_expiry_date = undefined;
+        accountInformation.la_user_account_information_updated_at = Date.now();
+
+        const userInformation = await accountInformation.save()
+
+        const accessToken = jwt.sign({
+            userId: userInformation._id.toString(),
+            la_user_phone_number: userInformation.la_user_phone_number,
+            la_user_email_address: userInformation.la_user_email_address,
+        },
+            process.env.ACCESS_TOKEN_SECRET,
+            { expiresIn: "30m" });
+
+        const refreshToken = jwt.sign({
+            userId: userInformation._id.toString(),
+            la_user_phone_number: userInformation.la_user_phone_number
+        },
+            process.env.REFRESH_TOKEN_SECRET,
+            { expiresIn: "30d" });
+
+        await new La_token_information({
+            la_refresh_token: refreshToken,
+            la_user_id: userInformation._id.toString(),
+        }).save()
+
+        res.status(200).json({
+            status: 200,
+            message: "Pin reset code verified successfully",
+            _id: userInformation._id.toString(),
+            accessToken: accessToken,
+            refreshToken: refreshToken
+        })
+    }
+    catch (error) {
+        res.json({ message: error.message, status: error.code })
+        next()
+    }
+}
+
+exports.La_user_phone_set_new_pin_controller = async function (req, res, next) {
+    const { la_user_pin } = req.body;
+    try {
+        if (!req.isAuth) {
+            const error = new Error("Unauthorised access, Login to continue");
+            error.code = 401;
+            throw error;
+        }
+
+        const userInformation = await La_user_account_information_model.findById(req.userId)
+
+        if (!userInformation) {
+            const error = new Error("User not found")
+            error.code = 404;
+            throw error;
+        }
+
+        const newPin = await bcrypt.hash(la_user_pin, 12);
+
+        userInformation.la_user_account_pin = newPin;
+        userInformation.la_user_account_information_updated_at = Date.now();
+
+        const updatedUser = await userInformation.save()
+
+        res.status(200).json({
+            status: 200,
+            message: "Pin updated successfully",
+            _id: updatedUser._id.toString(),
+            la_user_email_address: updatedUser.la_user_email_address,
+            la_user_phone_number: updatedUser.la_user_phone_number,
+            la_user_account_information_created_at: updatedUser.la_user_account_information_created_at,
+            la_user_account_information_updated_at: updatedUser.la_user_account_information_updated_at,
+            la_user_account_information_is_verified: updatedUser.la_user_account_information_is_verified,
+
+        })
+    }
+    catch (error) {
         res.json({ message: error.message, status: error.code })
         next()
     }
