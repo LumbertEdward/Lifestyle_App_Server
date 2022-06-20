@@ -981,13 +981,15 @@ exports.La_user_login_information_controller = async function (req, res, next) {
                 throw error;
             }
 
-            if (!bcrypt.compare(la_user_password, userInformation.la_user_account_password)) {
+            var status = await bcrypt.compare(la_user_password, userInformation.la_user_account_password)
+
+            if (!status) {
                 const error = new Error("Wrong email or password");
                 error.code = 400;
                 throw error;
             }
 
-            if (userInformation.la_user_account_information_is_verified === false) {
+            if (userInformation.la_user_account_information_is_verified == false) {
                 const error = new Error("Account not verified");
                 error.code = 401;
                 throw error;
