@@ -1449,6 +1449,35 @@ exports.La_user_update_address_information_controller = async function (req, res
     }
 }
 
+exports.La_user_get_account_information_controller = async function(req, res, next){
+    try{
+        if(!req.isAuth){
+            const error = new Error("Unauthorised access, login to continue")
+            error.code = 401
+            throw error
+        }
+
+        const userInformation = await La_user_account_information_model.findById(req.userId)
+
+        if (!userInformation) {
+            const error = new Error("User not found")
+            error.code = 404;
+            throw error;
+        }
+
+        res.status(200).json({
+            status: 200,
+            message: "Account information retrieved successfully",
+            ...userInformation
+        })
+
+    }
+    catch(error){
+        res.json({message: error.message, status: error.code})
+        next()
+    }
+}
+
 exports.La_user_log_out_controller = async function (req, res, next) {
     const { la_refresh_token } = req.body;
     const { la_user_id } = req.params;

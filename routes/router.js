@@ -66,7 +66,8 @@ const {
     La_user_update_health_information_controller,
     La_user_update_address_information_controller,
     La_user_log_out_controller,
-    La_mobile_refresh_token_information_controller
+    La_mobile_refresh_token_information_controller,
+    La_user_get_account_information_controller
 } = require('../controllers/UserManagementControllers/UserAuthenticationController');
 
 var router = express.Router();
@@ -114,6 +115,8 @@ router.post('/la_user_unlock_pin_information/:la_user_id', La_user_unlock_pin_in
 router.post('/la_user_log_out/:la_user_id', La_user_log_out_controller)
 
 router.post('/la_mobile_refresh_token_information/:la_refresh_token', La_mobile_refresh_token_information_controller)
+
+router.get('/la_user_get_account_information', La_user_get_account_information_controller)
 
 //client authentication
 
