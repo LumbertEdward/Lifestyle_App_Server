@@ -1370,7 +1370,7 @@ exports.La_user_update_health_information_controller = async function (req, res,
             userInformation.la_user_number_of_eat_times = la_user_number_of_eat_times;
         }
         if (la_user_meal_taken_details !== undefined) {
-            userInformation.la_user_meal_taken_details = la_user_meal_taken_details;
+            userInformation.la_user_meal_taken_details.concat(la_user_meal_taken_details);
         }
 
         userInformation.la_user_account_information_updated_at = Date.now();
@@ -1470,7 +1470,6 @@ exports.La_user_get_account_information_controller = async function(req, res, ne
             message: "Account information retrieved successfully",
             ...userInformation
         })
-
     }
     catch(error){
         res.json({message: error.message, status: error.code})

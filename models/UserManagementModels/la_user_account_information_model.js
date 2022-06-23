@@ -98,11 +98,13 @@ const la_user_account_information_schema = new Schema({
         required: false,
         trim: true
     },
-    la_user_meal_taken_details: {
-        type: String,
-        required: false,
-        trim: true
-    },
+    la_user_meal_taken_details: [
+        {
+            type: String,
+            required: false,
+            trim: true,
+        }
+    ],
     la_user_account_verification_code_expiry_date: {
         type: Date,
         required: false,
@@ -198,6 +200,6 @@ const la_user_account_information_schema = new Schema({
         }
     ]
 
-}, {timestamps: true})
+}, { timestamps: true })
 
 module.exports = mongoose.model('la_user_account_informations', la_user_account_information_schema)
