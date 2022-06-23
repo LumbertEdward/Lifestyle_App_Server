@@ -1468,7 +1468,7 @@ exports.La_user_get_account_information_controller = async function(req, res, ne
         res.status(200).json({
             status: 200,
             message: "Account information retrieved successfully",
-            ...userInformation
+            data: userInformation
         })
     }
     catch(error){
