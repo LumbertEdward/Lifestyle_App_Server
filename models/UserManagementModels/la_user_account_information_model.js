@@ -18,7 +18,7 @@ const la_user_account_information_schema = new Schema({
         required: false,
         trim: true
     },
-    la_user_last_name: {
+    la_user_middle_name: {
         type: String,
         required: false,
         trim: true

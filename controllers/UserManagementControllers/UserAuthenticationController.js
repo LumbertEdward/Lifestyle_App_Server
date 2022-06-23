@@ -1370,7 +1370,9 @@ exports.La_user_update_health_information_controller = async function (req, res,
             userInformation.la_user_number_of_eat_times = la_user_number_of_eat_times;
         }
         if (la_user_meal_taken_details !== undefined) {
-            userInformation.la_user_meal_taken_details.concat(la_user_meal_taken_details);
+            for(let i = 0; i < la_user_meal_taken_details.length; i++){
+                userInformation.la_user_meal_taken_details.push(la_user_meal_taken_details[i]);
+            }
         }
 
         userInformation.la_user_account_information_updated_at = Date.now();
