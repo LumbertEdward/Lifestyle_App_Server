@@ -44,7 +44,7 @@ const la_user_account_information_schema = new Schema({
         trim: true
     },
     la_user_date_of_birth: {
-        type: Dat,
+        type: Date,
         required: false,
         trim: true
     },
