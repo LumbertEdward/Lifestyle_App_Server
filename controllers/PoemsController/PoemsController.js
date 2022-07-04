@@ -164,3 +164,135 @@ exports.La_Delete_Poem_Controller = async function (req, res, next) {
         next()
     }
 }
+
+exports.La_Get_All_Poems_Controller = async function (req, res, next) {
+    try{
+        if(!req.isAuth){
+            const error = new Error("Unauthorised access, Login to continue")
+            error.code = 401
+            throw error
+        }
+
+        const poems = await La_Client_Poems_Information_Model.find()
+
+        res.status(200).json({
+            status: 200,
+            message: "Poems retrieved successfully",
+            poems: poems
+        })
+    }
+    catch(error){
+        res.json({message: error.data, status: error.code})
+        next()
+    }
+
+}
+
+exports.La_Get_Poem_By_Id_Controller = async function (req, res, next) {
+    const { la_poem_id } = req.params
+    try{
+        if(!req.isAuth){
+            const error = new Error("Unauthorised access, Login to continue")
+            error.code = 401;
+            throw error;
+        }
+
+        if(validator.isEmpty(la_poem_id)){
+            const error = new Error("Invalid inputs")
+            error.code = 400;
+            throw error;
+        }
+
+        const poem = await La_Client_Poems_Information_Model.findById(la_poem_id);
+
+        if(!poem){
+            const error = new Error("Poem not found")
+            error.code = 404;
+            throw error;
+        }
+
+        res.status(200).json({
+            status: 200,
+            message: "Poem retrieved successfully",
+            data: poem
+        })
+    }
+    catch(error){
+        res.json({ message: error.data, status: error.code })
+        next()
+    }
+}
+
+exports.La_Get_Poem_By_Topic_Controller = async function (req, res, next) {
+    const { la_poem_topic } = req.params
+    try{
+        if(!req.isAuth){
+            const error = new Error("Unauthorised access, Login to continue")
+            error.code = 401;
+            throw error;
+        }
+
+        if(validator.isEmpty(la_poem_topic)){
+            const error = new Error("Invalid inputs")
+            error.code = 400;
+            throw error;
+        }
+
+        const poems = await La_Client_Poems_Information_Model.findMany({
+            la_poems_topic: la_poem_topic
+        });
+
+        if(!poems){
+            const error = new Error("Poems not found")
+            error.code = 404
+            throw error;
+        }
+
+        res.status(200).json({
+            status: 200,
+            message: "Poems retrieved successfully",
+            data: poems
+        })
+    }
+    catch(error){
+        res.json({ message: error.data, status: error.code })
+        next()
+    }
+}
+
+exports.La_Get_Poem_By_Author_Controller = async function (req, res, next) {
+    const { la_poem_author } = req.params
+    try{
+        if(!req.isAuth){
+            const error = new Error("Unauthorised access, Login to continue")
+            error.code = 401;
+            throw error;
+        }
+
+        if(validator.isEmpty(la_poem_author)){
+            const error = new Error("Invalid inputs")
+            error.code = 400;
+            throw error;
+        }
+
+        const poems = await La_Client_Poems_Information_Model.findMany({
+            la_poems_author: la_poem_author
+        });
+
+        if(!poems){
+            const error = new Error("Poems not found")
+            error.code = 404
+            throw error;
+        }
+
+        res.status(200).json({
+            status: 200,
+            message: "Poems retrieved successfully",
+            data: poems
+        })
+    }
+    catch(error){
+        res.json({ message: error.data, status: error.code })
+        next()
+    }
+}

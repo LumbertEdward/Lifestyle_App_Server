@@ -456,7 +456,7 @@ exports.La_Get_Devotionals_Topics_Controller = async function (req, res, next) {
         res.status(200).json({
             status: 200,
             message: 'Devotionals topics retrieved successfully!',
-            ...devotionalTopics
+            data: devotionalTopics
         })
     }
     catch(error){

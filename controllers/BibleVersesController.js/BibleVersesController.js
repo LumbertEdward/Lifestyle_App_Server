@@ -161,3 +161,25 @@ exports.La_Delete_Bible_Verse_Information_Controller = async function (req, res,
         next()
     }
 }
+
+exports.La_Get_All_Bible_Verses_Controller = async function (req, res, next) {
+    try{
+        if(!req.isAuth){
+            const error = new Error("Unauthorised access, Login to continue")
+            error.code = 401;
+            throw error;
+        }
+
+        const verses = await La_Client_Bible_Verses_Model.find()
+
+        res.status(200).json({
+            status: 200,
+            message: "Verses retrieved successfully",
+            data: verses
+        })
+    }
+    catch(error){
+        res.json({ message: error.message, status: error.code })
+        next()
+    }
+}

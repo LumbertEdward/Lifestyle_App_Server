@@ -160,3 +160,25 @@ exports.La_Delete_Daily_Quote_Controller = async function (req, res, next) {
         next()
     }
 }
+
+exports.La_Get_All_Quotes_Controller = async function (req, res, next) {
+    try{
+        if(!req.isAuth){
+            const error = new Error("Unauthorised access, Login to continue")
+            error.code = 401;
+            throw error;
+        }
+
+        const quotes = await La_Daily_Quotes_Information_Model.find()
+
+        res.status(200).json({
+            status: 200,
+            message: "Quotes retrieved successfully",
+            data: quotes
+        })
+    }
+    catch(error){
+        res.json({ message: error.message, status: error.code })
+        next()
+    }
+}

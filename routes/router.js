@@ -1,6 +1,16 @@
 var express = require('express');
-const { La_Create_Bible_verse_Controller, La_Update_Bible_Verse_Controller, La_Delete_Bible_Verse_Information_Controller } = require('../controllers/BibleVersesController.js/BibleVersesController');
-const { La_Create_Daily_Quotes_Controller, La_Update_Daily_Quotes_Controller, La_Delete_Daily_Quote_Controller } = require('../controllers/DailyQuotesController/DailyQuotesController');
+const { 
+    La_Create_Bible_verse_Controller, 
+    La_Update_Bible_Verse_Controller, 
+    La_Delete_Bible_Verse_Information_Controller,
+    La_Get_All_Bible_Verses_Controller
+} = require('../controllers/BibleVersesController.js/BibleVersesController');
+const { 
+    La_Create_Daily_Quotes_Controller, 
+    La_Update_Daily_Quotes_Controller, 
+    La_Delete_Daily_Quote_Controller,
+    La_Get_All_Quotes_Controller
+} = require('../controllers/DailyQuotesController/DailyQuotesController');
 const { 
     La_Create_Devotional_Controller,
     La_Update_Devotional_Controller,
@@ -28,7 +38,15 @@ const {
     La_Delete_Category_Type_Controller,
     La_Add_Category_Type_Controller
  } = require('../controllers/MealPlansControllers/MealPlanController');
-const { La_Create_Poems_Controller, La_Update_Poem_Controller, La_Delete_Poem_Controller } = require('../controllers/PoemsController/PoemsController');
+const { 
+    La_Create_Poems_Controller, 
+    La_Update_Poem_Controller, 
+    La_Delete_Poem_Controller,
+    La_Get_All_Poems_Controller,
+    La_Get_Poem_By_Id_Controller,
+    La_Get_Poem_By_Topic_Controller,
+    La_Get_Poem_By_Author_Controller
+} = require('../controllers/PoemsController/PoemsController');
 const { 
     La_create_Client_Account_Information_Controller,
     La_Client_Account_Verification_Controller,
@@ -156,6 +174,14 @@ router.patch('/la_update_poem_information/:la_poems_id', La_Update_Poem_Controll
 
 router.delete('/la_delete_poem_information/:la_poems_id', La_Delete_Poem_Controller)
 
+router.get('/la_get_all_poems_information', La_Get_All_Poems_Controller)
+
+router.get('/la_get_poem_information_by_id/:la_poem_id', La_Get_Poem_By_Id_Controller)
+
+router.get('/la_get_poems_information_by_topic/:la_poem_topic', La_Get_Poem_By_Topic_Controller)
+
+router.get('/la_get_poems_information_by_author/:la_poem_author', La_Get_Poem_By_Author_Controller)
+
 //bible verses
 
 router.post('/la_create_bible_verses_information', La_Create_Bible_verse_Controller)
@@ -164,6 +190,8 @@ router.patch('/la_update_bible_verses_information/:la_bible_verse_id', La_Update
 
 router.delete('/la_delete_bible_verses_information/:la_bible_verse_id', La_Delete_Bible_Verse_Information_Controller)
 
+router.get('/la_get_all_bible_verses_information', La_Get_All_Bible_Verses_Controller)
+
 //daily quotes
 
 router.post('/la_create_daily_quotes_information', La_Create_Daily_Quotes_Controller)
@@ -171,6 +199,8 @@ router.post('/la_create_daily_quotes_information', La_Create_Daily_Quotes_Contro
 router.patch('/la_update_daily_quotes_information/:la_daily_quotes_id', La_Update_Daily_Quotes_Controller)
 
 router.delete('/la_delete_daily_quotes_information/:la_daily_quotes_id', La_Delete_Daily_Quote_Controller)
+
+router.get('/la_get_all_quotes_information', La_Get_All_Quotes_Controller)
 
 //meal plans
 
