@@ -56,7 +56,7 @@ exports.La_create_user_account_controller = async function (req, res, next) {
                 enqueue: true
             }
 
-            // sms.send(smsData);
+            sms.send(smsData);
 
             const userInformation = new La_user_account_information_model({
                 la_user_phone_number: la_user_phone_number,
@@ -260,7 +260,7 @@ exports.La_user_account_resend_verification_code_controller = async function (re
                 enqueue: true,
             }
 
-            // sms.send(smsData)
+            sms.send(smsData)
 
             userInformation.la_user_account_verification_code = one_time_password;
             userInformation.la_user_account_verification_code_expiry_date = Date.now() + 3600000;
@@ -369,7 +369,7 @@ exports.La_user_pin_reset_controller = async function (req, res, next) {
             enqueue: true,
         }
 
-        // sms.send(smsData)
+        sms.send(smsData)
 
         currentAccount.la_user_account_pin_reset_code = one_time_password;
         currentAccount.la_user_account_pin_reset_code_expiry_date = Date.now() + 3600000;
@@ -430,7 +430,7 @@ exports.La_user_pin_resend_reset_verification_controller = async function (req, 
             enqueue: true,
         }
 
-        // sms.send(smsData)
+        sms.send(smsData)
 
         currentAccount.la_user_account_pin_reset_code = one_time_password;
         currentAccount.la_user_account_pin_reset_code_expiry_date = Date.now() + 3600000;
@@ -660,7 +660,7 @@ exports.La_user_resend_reset_code_controller = async function (req, res, next) {
                 enqueue: true,
             }
 
-            // sms.send(smsData)
+            sms.send(smsData)
 
             userInformation.la_user_account_reset_code = one_time_password;
             userInformation.la_user_account_reset_code_expiry_date = Date.now() + 3600000;
@@ -940,7 +940,7 @@ exports.La_user_login_information_controller = async function (req, res, next) {
                 enqueue: true,
             }
 
-            // sms.send(smsData)
+            sms.send(smsData)
 
             userInformation.la_user_account_verification_code = one_time_password;
             userInformation.la_user_account_verification_code_expiry_date = Date.now() + 360000;
@@ -1151,7 +1151,7 @@ exports.La_user_phone_resend_login_verification_code_controller = async function
             enqueue: true,
         }
 
-        // sms.send(smsData)
+        sms.send(smsData)
 
         userInformation.la_user_account_verification_code = one_time_password;
         userInformation.la_user_account_verification_code_expiry_date = Date.now() + 360000;
