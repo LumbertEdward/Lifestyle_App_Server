@@ -61,6 +61,7 @@ exports.La_create_user_account_controller = async function (req, res, next) {
             const userInformation = new La_user_account_information_model({
                 la_user_phone_number: la_user_phone_number,
                 la_user_email_address: la_user_email_address,
+                la_user_profile_completed: false,
                 la_user_account_verification_code: one_time_password,
                 la_user_account_verification_code_expiry_date: Date.now() + 3600000,
                 la_user_account_information_created_at: Date.now(),
@@ -120,6 +121,7 @@ exports.La_create_user_account_controller = async function (req, res, next) {
             const userInformation = new La_user_account_information_model({
                 la_user_email_address: la_user_email_address,
                 la_user_phone_number: la_user_phone_number,
+                la_user_profile_completed: false,
                 la_user_account_verification_code: one_time_password,
                 la_user_account_information_type: false,
                 la_user_account_password: hashedPassword,
@@ -1374,6 +1376,8 @@ exports.La_user_update_health_information_controller = async function (req, res,
                 userInformation.la_user_meal_taken_details.push(la_user_meal_taken_details[i]);
             }
         }
+
+        userInformation.la_user_profile_completed = true;
 
         userInformation.la_user_account_information_updated_at = Date.now();
 

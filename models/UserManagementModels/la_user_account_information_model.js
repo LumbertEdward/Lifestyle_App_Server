@@ -198,7 +198,12 @@ const la_user_account_information_schema = new Schema({
             ref: 'la_meal_plan_information',
             required: false,
         }
-    ]
+    ],
+    la_user_profile_completed: {
+        type: Boolean,
+        required: false,
+        trim: true
+    }
 
 }, { timestamps: true })
 
