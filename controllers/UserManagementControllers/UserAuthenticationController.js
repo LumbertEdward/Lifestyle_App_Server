@@ -52,7 +52,7 @@ exports.La_create_user_account_controller = async function (req, res, next) {
 
             const smsData = {
                 to: la_user_phone_number,
-                message: ("Your Lifehub App One Time Password is").concat(" ", one_time_password),
+                message: ("Your Fitspiration App One Time Password is").concat(" ", one_time_password),
                 enqueue: true
             }
 
@@ -256,7 +256,7 @@ exports.La_user_account_resend_verification_code_controller = async function (re
 
             const smsData = {
                 to: userInformation.la_user_phone_number,
-                message: ("Your Lifehub App One Time Password is").concat(" ", one_time_password),
+                message: ("Your Fitspiration App One Time Password is").concat(" ", one_time_password),
                 enqueue: true,
             }
 
@@ -365,7 +365,7 @@ exports.La_user_pin_reset_controller = async function (req, res, next) {
 
         const smsData = {
             to: currentAccount.la_user_phone_number,
-            message: ("Your Lifehub App One Time Password is").concat(" ", one_time_password),
+            message: ("Your Fitspiration App One Time Password is").concat(" ", one_time_password),
             enqueue: true,
         }
 
@@ -426,7 +426,7 @@ exports.La_user_pin_resend_reset_verification_controller = async function (req, 
 
         const smsData = {
             to: userInformation.la_user_phone_number,
-            message: ("Your Lifehub App One Time Password is").concat(" ", one_time_password),
+            message: ("Your Fitspiration App One Time Password is").concat(" ", one_time_password),
             enqueue: true,
         }
 
@@ -656,7 +656,7 @@ exports.La_user_resend_reset_code_controller = async function (req, res, next) {
 
             const smsData = {
                 to: userInformation.la_user_phone_number,
-                message: ("Your Lifehub App One Time Password is").concat(" ", one_time_password),
+                message: ("Your Fitspiration App One Time Password is").concat(" ", one_time_password),
                 enqueue: true,
             }
 
@@ -936,7 +936,7 @@ exports.La_user_login_information_controller = async function (req, res, next) {
 
             const smsData = {
                 to: userInformation.la_user_phone_number,
-                message: ("Your Lifehub App One Time Password is").concat(" ", one_time_password),
+                message: ("Your Fitspiration App One Time Password is").concat(" ", one_time_password),
                 enqueue: true,
             }
 
@@ -1147,7 +1147,7 @@ exports.La_user_phone_resend_login_verification_code_controller = async function
 
         const smsData = {
             to: userInformation.la_user_phone_number,
-            message: ("Your Lifehub App One Time Password is").concat(" ", one_time_password),
+            message: ("Your Fitspiration App One Time Password is").concat(" ", one_time_password),
             enqueue: true,
         }
 
