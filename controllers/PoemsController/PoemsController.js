@@ -223,6 +223,39 @@ exports.La_Get_Poem_By_Id_Controller = async function (req, res, next) {
     }
 }
 
+exports.La_Get_All_Poem_Topics_Controller = async function(req, res, next){
+    try{
+        if(!req.isAuth){
+            const error = new Error("Unauthorised access, Login to continue")
+            error.code = 401
+            throw error
+        }
+
+        let topics = []
+
+        const poems = await La_Client_Poems_Information_Model.find()
+
+        if(poems.length > 0){
+            for(let i = 0; i < poems.length; i++){
+                const status = topics.filter((item) => item.la_poems_topic == poems[i].la_poems_topic)
+                if(status.length < 1){
+                    topics.push(poems[i].la_poems_topic)
+                }
+            }
+        }
+
+        res.status(200).json({
+            status: 200,
+            message: "Retrived successfully",
+            data: topics
+        })
+    }
+    catch(error){
+        res.json({message: error.data, status: error.code})
+        next()
+    }
+}
+
 exports.La_Get_Poem_By_Topic_Controller = async function (req, res, next) {
     const { la_poem_topic } = req.params
     try{
@@ -275,7 +308,7 @@ exports.La_Get_Poem_By_Author_Controller = async function (req, res, next) {
             throw error;
         }
 
-        const poems = await La_Client_Poems_Information_Model.findMany({
+        const poems = await La_Client_Poems_Information_Model.find({
             la_poems_author: la_poem_author
         });
 
