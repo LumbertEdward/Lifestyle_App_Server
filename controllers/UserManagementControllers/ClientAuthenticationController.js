@@ -1118,6 +1118,7 @@ exports.La_Client_phone_resend_login_verification_code_controller = async functi
 
 exports.La_Client_Unlock_Pin_Controller = async function (req, res, next) {
     const { la_client_account_pin } = req.body;
+    const { la_client_id } = req.params;
 
     try {
 

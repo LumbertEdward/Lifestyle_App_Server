@@ -179,7 +179,7 @@ router.post('/la_client_phone_login_resend_verification_code/:la_client_phone_nu
 
 router.post('/la_client_login_information', La_Client_Login_Controller)
 
-router.post('/la_client_unlock_pin_information', La_Client_Unlock_Pin_Controller)
+router.post('/la_client_unlock_pin_information/:la_client_id', La_Client_Unlock_Pin_Controller)
 
 router.post('/la_client_log_out_information/:la_refresh_token', La_Client_Logout_Controller)
 
