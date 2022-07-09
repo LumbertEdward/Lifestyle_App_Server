@@ -125,19 +125,21 @@ exports.La_create_Client_Account_Information_Controller = async function (req, r
             const clientInformation = new La_clients_account_information_model({
                 la_client_phone_number: la_client_phone_number,
                 la_client_email_address: "",
-                la_client_verification_code: one_time_password,
                 la_client_profile_completed: false,
+                la_client_verification_code: one_time_password,
                 la_client_verification_code_expiry_at: Date.now() + 3600000,
                 la_client_created_at: Date.now(),
                 la_client_updated_at: Date.now()
             })
 
+            const updatedUser = await clientInformation.save()
+
             res.status(200).json({
                 status: 200,
                 message: "Account Created Successfully",
-                id: clientInformation._id,
-                la_client_phone_number: clientInformation.la_client_phone_number,
-                la_client_verification_code: clientInformation.la_client_verification_code,
+                id: updatedUser._id,
+                la_client_phone_number: updatedUser.la_client_phone_number,
+                la_client_verification_code: updatedUser.la_client_verification_code,
             })
         }
 
