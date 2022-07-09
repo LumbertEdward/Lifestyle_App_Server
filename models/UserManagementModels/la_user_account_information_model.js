@@ -199,6 +199,27 @@ const la_user_account_information_schema = new Schema({
             required: false,
         }
     ],
+    la_user_favourite_poems: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'la_poems',
+            required: false
+        }
+    ],
+    la_user_liked_poems: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'la_poems',
+            required: false
+        }
+    ],
+    la_user_disliked_poems: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'la_poems',
+            required: false
+        }
+    ],
     la_user_profile_completed: {
         type: Boolean,
         required: false,

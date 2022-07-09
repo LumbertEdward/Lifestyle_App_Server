@@ -46,7 +46,9 @@ const {
     La_Get_Poem_By_Id_Controller,
     La_Get_Poem_By_Topic_Controller,
     La_Get_Poem_By_Author_Controller,
-    La_Get_All_Poem_Topics_Controller
+    La_Get_All_Poem_Topics_Controller,
+    La_Update_Poem_Likes_Controller,
+    La_Update_Poem_DisLikes_Controller
 } = require('../controllers/PoemsController/PoemsController');
 const { 
     La_create_Client_Account_Information_Controller,
@@ -57,12 +59,19 @@ const {
     La_Client_Reset_Code_Verification_Controller,
     La_Client_Update_Password_Controller,
     La_Client_Create_Pin_Controller,
+    La_Client_pin_reset_controller,
+    La_Client_pin_resend_reset_verification_controller,
+    La_Client_pin_reset_code_verification_controller,
+    La_Client_phone_set_new_pin_controller,
     La_Client_Login_Controller,
+    La_Client_phone_login_verification_code_controller,
+    La_Client_phone_resend_login_verification_code_controller,
     La_Client_Unlock_Pin_Controller,
     La_Client_Logout_Controller,
     La_Client_Refresh_Token_Controller,
     La_Client_Update_Profile_Information_Controller,
-    La_Create_Client_Address_Information_Controller
+    La_Create_Client_Address_Information_Controller,
+    La_client_get_account_information_controller
  } = require('../controllers/UserManagementControllers/ClientAuthenticationController');
 const { 
     La_create_user_account_controller, 
@@ -149,15 +158,27 @@ router.post('/la_client_reset_code', La_Client_Reset_Code_Controller)
 
 router.post('/la_client_resend_reset_code', La_Client_Resend_Reset_Code_Controller)
 
-router.post('/la_client_reset_code_verification/:la_client_id', La_Client_Reset_Code_Verification_Controller)
+router.post('/la_client_reset_code_verification/:la_reset_code', La_Client_Reset_Code_Verification_Controller)
 
-router.patch('/la_client_update_password_information', La_Client_Update_Password_Controller)
+router.post('/la_client_update_password_information', La_Client_Update_Password_Controller)
 
 router.post('/la_client_create_pin_information', La_Client_Create_Pin_Controller)
 
+router.post('/la_client_pin_reset', La_Client_pin_reset_controller)
+
+router.post('/la_client_pin_resend_reset_code', La_Client_pin_resend_reset_verification_controller)
+
+router.post('/la_client_pin_reset_code_verification/:la_client_pin_reset_code', La_Client_pin_reset_code_verification_controller)
+
+router.post('/la_client_set_new_pin', La_Client_phone_set_new_pin_controller)
+
+router.post('/la_client_phone_login_verification_code/:la_client_verification_code', La_Client_phone_login_verification_code_controller)
+
+router.post('/la_client_phone_login_resend_verification_code/:la_client_phone_number', La_Client_phone_resend_login_verification_code_controller)
+
 router.post('/la_client_login_information', La_Client_Login_Controller)
 
-router.post('/la_client_unlock_pin_information/:la_client_id', La_Client_Unlock_Pin_Controller)
+router.post('/la_client_unlock_pin_information', La_Client_Unlock_Pin_Controller)
 
 router.post('/la_client_log_out_information/:la_refresh_token', La_Client_Logout_Controller)
 
@@ -166,6 +187,8 @@ router.post('/la_client_refresh_information/:la_refresh_token', La_Client_Refres
 router.patch('/la_client_update_account_information', La_Client_Update_Profile_Information_Controller)
 
 router.patch('/la_client_create_address_information', La_Create_Client_Address_Information_Controller)
+
+router.get('/la_client_get_account_information', La_client_get_account_information_controller)
 
 //poems
 
@@ -184,6 +207,12 @@ router.get('/la_get_poem_information_by_id/:la_poem_id', La_Get_Poem_By_Id_Contr
 router.get('/la_get_poems_information_by_topic/:la_poem_topic', La_Get_Poem_By_Topic_Controller)
 
 router.get('/la_get_poems_information_by_author/:la_poem_author', La_Get_Poem_By_Author_Controller)
+
+router.patch('/la_update_user_poem_likes', La_Update_Poem_Likes_Controller)
+
+router.patch('/la_update_user_poem_dislikes', La_Update_Poem_DisLikes_Controller)
+
+router.patch('/la_update_user_poems_favourites', La_Update_User_Favourite_Poems_Controller)
 
 //bible verses
 

@@ -119,6 +119,16 @@ const la_clients_account_information_schema = new Schema({
         required: false,
         trim: true
     },
+    la_client_pin_reset_code: {
+        type: String,
+        required: false,
+        trim: true
+    },
+    la_client_pin_reset_code_expiry_date: {
+        type: Date,
+        required: false,
+        trim: true
+    },
     la_client_is_verified: {
         type: Boolean,
         required: false,
@@ -185,7 +195,12 @@ const la_clients_account_information_schema = new Schema({
             ref: 'la_work_out_plan',
             required: false
         }
-    ]
+    ],
+    la_client_profile_completed: {
+        type: Boolean,
+        required: false,
+        trim: true
+    }
 }, {timestamps: true})
 
 module.exports = mongoose.model('la_clients_account_information', la_clients_account_information_schema)

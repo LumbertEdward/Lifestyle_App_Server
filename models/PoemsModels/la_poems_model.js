@@ -27,6 +27,16 @@ const la_poems_schema = new Schema({
         required: false,
         trim: true
     },
+    la_poems_likes: {
+        type: String,
+        required: false,
+        trim: true
+    },
+    la_poems_dislikes: {
+        type: String,
+        required: false,
+        trim: true
+    },
     la_poems_created_at: {
         type: Date,
         required: false,

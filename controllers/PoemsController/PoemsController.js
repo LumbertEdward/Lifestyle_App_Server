@@ -329,3 +329,161 @@ exports.La_Get_Poem_By_Author_Controller = async function (req, res, next) {
         next()
     }
 }
+
+exports.La_Update_Poem_Likes_Controller = async function(req, res, next){
+    const { la_poem_id } = req.body
+    try{
+        if(!req.isAuth){
+            const error = new Error("Unauthorised access, Login to continue")
+            error.code = 401
+            throw error
+        }
+
+        if(validator.isEmpty(la_poem_id)){
+            const error = new Error("Invalid input")
+            error.code = 400
+            throw error
+        }
+
+        const poem = await La_Client_Poems_Information_Model.findById(la_poem_id)
+
+        if(!poem){
+            const error = new Error("Poem not found")
+            error.code = 404
+            throw error
+        }
+
+        const user = await La_clients_account_information_model.findById(req.userId)
+
+        if(!user){
+            const error = new Error("User does not exist")
+            error.code = 404
+            throw error
+        }
+
+        const currentSum = parseInt(poem.la_poems_likes)
+
+        poem.la_poems_likes = (currentSum + 1).toString()
+
+        const updatedPoem = await poem.save()
+
+        user.la_user_liked_poems.push(poem._id)
+
+        const updatedUser = await user.save()
+
+        res.status(200).json({
+            status: 200,
+            message: "Poem Updated successfully",
+            user: updatedUser,
+            poem: updatedPoem
+        })
+    }
+    catch(error){
+        res.json({message: error.data, status: error.code})
+        next()
+    }
+}
+
+exports.La_Update_Poem_DisLikes_Controller = async function(req, res, next){
+    const { la_poem_id } = req.body
+
+    try{
+        if(!req.isAuth){
+            const error = new Error("Unauthorised access, Login to continue")
+            error.code = 401
+            throw error
+        }
+
+        if(validator.isEmpty(la_poem_id)){
+            const error = new Error("Invalid input")
+            error.code = 400
+            throw error
+        }
+
+        const poem = await La_Client_Poems_Information_Model.findById(la_poem_id)
+
+        if(!poem){
+            const error = new Error("Poem not found")
+            error.code = 404
+            throw error
+        }
+
+        const user = await La_clients_account_information_model.findById(req.userId)
+
+        if(!user){
+            const error = new Error("User does not exist")
+            error.code = 404
+            throw error
+        }
+
+        const currentSum = parseInt(poem.la_poems_dislikes)
+
+        poem.la_poems_dislikes = (currentSum + 1).toString()
+
+        const updatedPoem = await poem.save()
+
+        user.la_user_disliked_poems.push(poem._id)
+
+        const updatedUser = await user.save()
+
+        res.status(200).json({
+            status: 200,
+            message: "Poem Updated successfully",
+            user: updatedUser,
+            poem: updatedPoem
+        })
+    }
+    catch(error){
+        res.json({message: error.data, status: error.code})
+        next()
+    }
+}
+
+exports.La_Update_User_Favourite_Poems_Controller = async function(req, res, next){
+    const { la_poem_id } = req.body
+
+    try{
+        if(!req.isAuth){
+            const error = new Error("Unauthorised access, Login to continue")
+            error.code = 401
+            throw error
+        }
+
+        if(validator.isEmpty(la_poem_id)){
+            const error = new Error("Invalid input")
+            error.code = 400
+            throw error
+        }
+
+        const poem = await La_Client_Poems_Information_Model.findById(la_poem_id)
+
+        if(!poem){
+            const error = new Error("Poem not found")
+            error.code = 404
+            throw error
+        }
+
+        const user = await La_clients_account_information_model.findById(req.userId)
+
+        if(!user){
+            const error = new Error("User does not exist")
+            error.code = 404
+            throw error
+        }
+
+        user.la_user_favourite_poems.push(poem._id)
+
+        const updatedUser = await user.save()
+
+        res.status(200).json({
+            status: 200,
+            message: "Favourites updated successfully",
+            user: updatedUser
+        })
+
+    }
+    catch(error){
+        res.json({message: error.data, status: error.code})
+        next()
+    }
+}
