@@ -65,6 +65,7 @@ exports.La_create_Client_Account_Information_Controller = async function (req, r
                 la_client_email_address: la_client_email_address,
                 la_client_phone_number: "",
                 la_client_password: encrypted_password,
+                la_client_profile_completed: false,
                 la_client_verification_code: one_time_password,
                 la_client_verification_code_expiry_at: Date.now() + 3600000,
                 la_client_created_at: Date.now(),
@@ -125,6 +126,7 @@ exports.La_create_Client_Account_Information_Controller = async function (req, r
                 la_client_phone_number: la_client_phone_number,
                 la_client_email_address: "",
                 la_client_verification_code: one_time_password,
+                la_client_profile_completed: false,
                 la_client_verification_code_expiry_at: Date.now() + 3600000,
                 la_client_created_at: Date.now(),
                 la_client_updated_at: Date.now()
