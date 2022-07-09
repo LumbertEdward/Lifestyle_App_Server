@@ -860,7 +860,7 @@ exports.La_Client_Login_Controller = async function (req, res, next) {
             })
 
             if (!clientInformation) {
-                const error = new Error('Invalid Email Address')
+                const error = new Error('Email address does not exist')
                 error.code = 404
                 throw error
             }
@@ -1183,9 +1183,9 @@ exports.La_Client_Unlock_Pin_Controller = async function (req, res, next) {
             status: 200,
             message: "Pin Unlocked Successfully",
             _id: clientInformation._id,
-            accessToken: accessToken,
+            token: accessToken,
             refreshToken: refreshToken,
-            ...clientInformation._doc,
+            data: clientInformation,
         })
 
     } catch (error) {
