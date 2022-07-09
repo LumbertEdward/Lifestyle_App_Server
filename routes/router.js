@@ -71,7 +71,7 @@ const {
     La_Client_Refresh_Token_Controller,
     La_Client_Update_Profile_Information_Controller,
     La_Create_Client_Address_Information_Controller,
-    La_client_get_account_information_controller
+    La_client_get_account_information_controller,
  } = require('../controllers/UserManagementControllers/ClientAuthenticationController');
 const { 
     La_create_user_account_controller, 
