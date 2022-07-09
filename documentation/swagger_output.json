@@ -92,30 +92,6 @@
         }
       }
     },
-    "/la_user_phone_reset_code": {
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "la_user_phone_number": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/la_user_email_reset_code": {
       "post": {
         "description": "",
@@ -213,6 +189,96 @@
       }
     },
     "/la_phone_user_set_pin": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_user_pin": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_user_pin_reset": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_user_phone_number": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_user_pin_resend_reset_code": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_user_phone_number": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_user_pin_reset_code_verification/{la_user_account_pin_reset_code}": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_user_account_pin_reset_code",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_user_set_new_pin": {
       "post": {
         "description": "",
         "parameters": [
@@ -398,10 +464,52 @@
         }
       }
     },
-    "/La_user_unlock_pin_information": {
+    "/la_user_phone_login_verification_code/{la_user_verification_code}": {
       "post": {
         "description": "",
         "parameters": [
+          {
+            "name": "la_user_verification_code",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_user_phone_login_resend_verification_code/{la_user_phone_number}": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_user_phone_number",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_user_unlock_pin_information/{la_user_id}": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_user_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "body",
             "in": "body",
@@ -470,6 +578,17 @@
         }
       }
     },
+    "/la_user_get_account_information": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/la_client_create_account_information": {
       "post": {
         "description": "",
@@ -489,7 +608,7 @@
                 "la_client_password": {
                   "example": "any"
                 },
-                "la_sign_in_with": {
+                "la_sign_up_with": {
                   "example": "any"
                 }
               }
@@ -512,18 +631,6 @@
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "la_client_id": {
-                  "example": "any"
-                }
-              }
-            }
           }
         ],
         "responses": {
@@ -543,10 +650,13 @@
             "schema": {
               "type": "object",
               "properties": {
-                "la_client_id": {
+                "la_client_email_address": {
                   "example": "any"
                 },
-                "la_resend_with": {
+                "la_client_phone_number": {
+                  "example": "any"
+                },
+                "la_resend_via": {
                   "example": "any"
                 }
               }
@@ -572,12 +682,6 @@
               "properties": {
                 "la_client_email_address": {
                   "example": "any"
-                },
-                "la_client_phone_number": {
-                  "example": "any"
-                },
-                "la_reset_with": {
-                  "example": "any"
                 }
               }
             }
@@ -600,7 +704,10 @@
             "schema": {
               "type": "object",
               "properties": {
-                "la_client_id": {
+                "la_client_email_address": {
+                  "example": "any"
+                },
+                "la_client_phone_number": {
                   "example": "any"
                 },
                 "la_resend_with": {
@@ -617,27 +724,15 @@
         }
       }
     },
-    "/la_client_reset_code_verification/{la_client_id}": {
+    "/la_client_reset_code_verification/{la_reset_code}": {
       "post": {
         "description": "",
         "parameters": [
           {
-            "name": "la_client_id",
+            "name": "la_reset_code",
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "la_reset_code": {
-                  "example": "any"
-                }
-              }
-            }
           }
         ],
         "responses": {
@@ -648,7 +743,7 @@
       }
     },
     "/la_client_update_password_information": {
-      "patch": {
+      "post": {
         "description": "",
         "parameters": [
           {
@@ -695,6 +790,132 @@
         }
       }
     },
+    "/la_client_pin_reset": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_client_phone_number": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_client_pin_resend_reset_code": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_client_phone_number": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_client_pin_reset_code_verification/{la_client_pin_reset_code}": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_client_pin_reset_code",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_client_set_new_pin": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_client_pin": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_client_phone_login_verification_code/{la_client_verification_code}": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_client_verification_code",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_client_phone_login_resend_verification_code/{la_client_phone_number}": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_client_phone_number",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/la_client_login_information": {
       "post": {
         "description": "",
@@ -728,16 +949,10 @@
         }
       }
     },
-    "/la_client_unlock_pin_information/{la_client_id}": {
+    "/la_client_unlock_pin_information": {
       "post": {
         "description": "",
         "parameters": [
-          {
-            "name": "la_client_id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
           {
             "name": "body",
             "in": "body",
@@ -881,6 +1096,17 @@
         }
       }
     },
+    "/la_client_get_account_information": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/la_create_poem_information": {
       "post": {
         "description": "",
@@ -913,6 +1139,125 @@
             "type": "string"
           }
         ],
+        "responses": {}
+      }
+    },
+    "/la_get_all_poems_information": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/la_get_all_poem_topics_information": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/la_get_poem_information_by_id/{la_poem_id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_poem_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/la_get_poems_information_by_topic/{la_poem_topic}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_poem_topic",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_get_poems_information_by_author/{la_poem_author}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "la_poem_author",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_update_user_poem_likes": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_poem_id": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_update_user_poem_dislikes": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "la_poem_id": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_update_user_poems_favourites": {
+      "patch": {
+        "description": "",
+        "parameters": [],
         "responses": {}
       }
     },
@@ -1006,6 +1351,17 @@
         }
       }
     },
+    "/la_get_all_bible_verses_information": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/la_create_daily_quotes_information": {
       "post": {
         "description": "",
@@ -1089,6 +1445,17 @@
             "type": "string"
           }
         ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/la_get_all_quotes_information": {
+      "get": {
+        "description": "",
+        "parameters": [],
         "responses": {
           "200": {
             "description": "OK"

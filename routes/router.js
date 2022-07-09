@@ -48,7 +48,8 @@ const {
     La_Get_Poem_By_Author_Controller,
     La_Get_All_Poem_Topics_Controller,
     La_Update_Poem_Likes_Controller,
-    La_Update_Poem_DisLikes_Controller
+    La_Update_Poem_DisLikes_Controller,
+    La_Update_User_Favourite_Poems_Controller
 } = require('../controllers/PoemsController/PoemsController');
 const { 
     La_create_Client_Account_Information_Controller,
