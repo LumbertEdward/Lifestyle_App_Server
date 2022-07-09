@@ -63,6 +63,7 @@ exports.La_create_Client_Account_Information_Controller = async function (req, r
 
             const la_client_account_information = new La_clients_account_information_model({
                 la_client_email_address: la_client_email_address,
+                la_client_phone_number: "",
                 la_client_password: encrypted_password,
                 la_client_verification_code: one_time_password,
                 la_client_verification_code_expiry_at: Date.now() + 3600000,
@@ -122,6 +123,7 @@ exports.La_create_Client_Account_Information_Controller = async function (req, r
 
             const clientInformation = new La_clients_account_information_model({
                 la_client_phone_number: la_client_phone_number,
+                la_client_email_address: "",
                 la_client_verification_code: one_time_password,
                 la_client_verification_code_expiry_at: Date.now() + 3600000,
                 la_client_created_at: Date.now(),
