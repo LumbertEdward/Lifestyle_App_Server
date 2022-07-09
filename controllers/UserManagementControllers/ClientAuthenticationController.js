@@ -1351,7 +1351,7 @@ exports.La_Client_Update_Profile_Information_Controller = async function (req, r
         res.status(200).json({
             status: 200,
             message: "Profile Information Updated Successfully",
-            ...updatedInformation._doc,
+            data: updatedInformation
         })
 
     }
@@ -1402,7 +1402,7 @@ exports.La_Create_Client_Address_Information_Controller = async function (req, r
         res.status(200).json({
             status: 200,
             message: "Address Information Updated Successfully",
-            ...updatedInformation._doc,
+            data: updatedInformation,
         })
     }
     catch (error) {
