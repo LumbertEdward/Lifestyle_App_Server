@@ -223,6 +223,36 @@ exports.La_Get_Poem_By_Id_Controller = async function (req, res, next) {
     }
 }
 
+exports.La_Get_Poem_By_Client_Id_Controller = async function (req, res, next) {
+    try{
+        if(!req.isAuth){
+            const error = new Error("Unauthorised access, Login to continue")
+            error.code = 401;
+            throw error;
+        }
+
+        const poem = await La_Client_Poems_Information_Model.findMany({
+            la_client_id: req.userId
+        });
+
+        if(!poem){
+            const error = new Error("Poem not found")
+            error.code = 404;
+            throw error;
+        }
+
+        res.status(200).json({
+            status: 200,
+            message: "Poem retrieved successfully",
+            data: poem
+        })
+    }
+    catch(error){
+        res.json({ message: error.data, status: error.code })
+        next()
+    }
+}
+
 exports.La_Get_All_Poem_Topics_Controller = async function(req, res, next){
     try{
         if(!req.isAuth){

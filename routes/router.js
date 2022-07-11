@@ -49,7 +49,8 @@ const {
     La_Get_All_Poem_Topics_Controller,
     La_Update_Poem_Likes_Controller,
     La_Update_Poem_DisLikes_Controller,
-    La_Update_User_Favourite_Poems_Controller
+    La_Update_User_Favourite_Poems_Controller,
+    La_Get_Poem_By_Client_Id_Controller
 } = require('../controllers/PoemsController/PoemsController');
 const { 
     La_create_Client_Account_Information_Controller,
@@ -204,6 +205,8 @@ router.get('/la_get_all_poems_information', La_Get_All_Poems_Controller)
 router.get('/la_get_all_poem_topics_information', La_Get_All_Poem_Topics_Controller)
 
 router.get('/la_get_poem_information_by_id/:la_poem_id', La_Get_Poem_By_Id_Controller)
+
+router.get('/la_get_poems_by_client_id', La_Get_Poem_By_Client_Id_Controller)
 
 router.get('/la_get_poems_information_by_topic/:la_poem_topic', La_Get_Poem_By_Topic_Controller)
 
