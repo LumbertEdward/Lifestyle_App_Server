@@ -231,7 +231,7 @@ exports.La_Get_Poem_By_Client_Id_Controller = async function (req, res, next) {
             throw error;
         }
 
-        const poem = await La_Client_Poems_Information_Model.findMany({
+        const poem = await La_Client_Poems_Information_Model.find({
             la_client_id: req.userId
         });
 
@@ -243,7 +243,7 @@ exports.La_Get_Poem_By_Client_Id_Controller = async function (req, res, next) {
 
         res.status(200).json({
             status: 200,
-            message: "Poem retrieved successfully",
+            message: "Poems retrieved successfully",
             data: poem
         })
     }
